@@ -1,0 +1,130 @@
+﻿@model IEnumerable<C___MVC.Models.Resume>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+
+<div class="inner_page_agile text-center">
+	<!-- Thông tin công việc -->
+	@* <h3 class="mt-4 mb-3">1</h3>
+	<p class="lead">Quantity: 2</p> *@
+</div>
+<div class="services-breadcrumb_w3layouts">
+    <div class="inner_breadcrumb">
+
+        <ul class="short_w3ls" _w3ls="">
+			<li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+            <li>Resume</li>
+        </ul>
+    </div>
+</div>
+<div class="inner_content_info_agileits">
+    <div class="container">
+        <div class="tittle_head_w3ls">
+            <h3 class="tittle">Resume </h3>
+        </div>
+        <div class="inner_sec_grids_info_w3ls">
+			<div id="candidateResults">
+            <div class="col-md-8 job_info_left">
+			@if (Model != null && Model.Any())
+			{
+			@foreach (var resume in Model)
+			{
+				<div class="tab_grid_prof">
+					<div class="col-sm-3 loc_1">
+						<a href="#">
+							<img src="@Url.Content("~/images/" + resume.Candidate.Avatar)" alt="Avatar">
+						</a>
+					</div>
+					<div class="col-sm-9">
+						<div class="location_box1">
+							<h6>Name: @resume.Candidate.UserName</h6>
+							<strong>Job</strong>: <a asp-controller="Job" asp-action="Details" asp-route-id="@resume.Job.JobId"><span class="m_2_prof">@resume.Job.Title</span></a>
+							<div class="person-info">
+								<ul>
+									<li><span>Email</span>: @resume.Candidate.Email</li>
+									<li><span>Phone Number</span>: @resume.Candidate.PhoneNumber</li>
+									<li>
+										<a href="@Url.Action("DownloadCv", "Resume", new { fileName = resume.Cv })">
+										<span>Cv</span>: @resume.Cv
+										</a>
+									</li>
+									<li><span>CreatedAt</span>: @resume.CreatedAt.ToString()</li>
+									<li><span>Status</span>: @resume.Status</li>
+								</ul>
+							</div>
+									<form method="post" asp-controller="Resume" asp-action="DeleteResume" style="display:inline;" onsubmit="return confirmDelete();">
+										<input type="hidden" name="jobId" value="@resume.JobId" />
+										<input type="hidden" name="candidateId" value="@resume.CandidateId" />
+										<input type="hidden" name="returnUrl" value="List" />
+										<button type="submit" class="btn btn-danger">Cancel</button>
+									</form>
+									<ul class="top-btns">
+										<li><a href="#" class="fa fa-heart toggle"></a></li>
+										<li><a href="#" class="fa fa-star"></a></li>
+										<li><a href="#" class="fa fa-link"></a></li>
+									</ul>
+						</div>
+							
+					</div>
+					<div class="clearfix"></div>
+				</div>
+					}
+				}
+				else
+				{
+					<p>No Resume found.</p>
+				}
+			</div>
+			</div>
+			<div class="col-md-4 job_info_right">
+
+				<div class="widget_search">
+					<h5 class="widget-title">Search Jobs</h5>
+					<div class="widget-content">
+						<form id="searchForm">
+							<input id="keyword" type="text" name="keyword" placeholder="Enter Keyword(s)" required="">
+							<input type="submit" value="Search">
+						</form>
+					</div>
+				</div>
+
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script type="text/javascript">
+		function confirmDelete() {
+			return confirm("Are you sure you want to cancel this resume?");
+		}
+	</script>
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function () {
+		// Gắn sự kiện submit vào form tìm kiếm
+		$('#searchForm').on('submit', function (e) {
+			e.preventDefault(); // Ngăn form load lại trang
+
+			var keyword = $('#keyword').val(); // Lấy giá trị từ input
+
+			$.ajax({
+				url: '@Url.Action("SearchCandidatesbyjob", "Resume")', // Đường dẫn đến action tìm kiếm
+				type: 'POST',
+				data: { keyword: keyword }, // Gửi từ khóa tìm kiếm
+				success: function (result) {
+					// Hiển thị kết quả trong container
+					$('#candidateResults').html(result);
+				},
+				error: function () {
+					alert("Error occurred while searching candidates.");
+				}
+			});
+		});
+	});
+</script>

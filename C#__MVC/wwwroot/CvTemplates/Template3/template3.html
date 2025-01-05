@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Template</title>
+    <link rel="stylesheet" href="/CvTemplates/Template3/template3.css">
+</head>
+<body>
+    <div class="header-create">
+        <div class="row" style="
+     width: 100%;">
+            <div class="col-md-12" style="display: inline-grid;">
+
+                <div class="tool-section-bottom">
+                 
+
+                    <label for="fontSelector">Phông chữ: </label>
+                    <select id="fontSelector" class="tool-input" onchange="changeFont()">
+                        <!-- Các lựa chọn phông chữ -->
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Open Sans', sans-serif">Open Sans</option>
+                        <option value="'Lato', sans-serif">Lato</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                        <option value="'Raleway', sans-serif">Raleway</option>
+                        <option value="'Poppins', sans-serif">Poppins</option>
+                        <option value="'Merriweather', serif">Merriweather</option>
+                        <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                        <option value="'Nunito', sans-serif">Nunito</option>
+                        <option value="'Droid Sans', sans-serif">Droid Sans</option>
+                        <option value="'Oswald', sans-serif">Oswald</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                    </select>
+
+                    <label for="fontSize">Cỡ chữ: </label>
+                    <input type="number" id="fontSize" class="tool-input" value="14" onchange="changeFontSize()">
+
+                    <label for="lineHeight">Khoảng cách dòng: </label>
+                    <input type="number" id="lineHeight" class="tool-input" value="1.5" step="0.1" onchange="changeLineHeight()">
+                </div>
+
+                <!-- Preview CV -->
+
+            </div>
+        </div>
+    </div>
+    <div class="create-cv" style="padding: 50px 10px;">
+        <form action="/Cv/CreateCV" method="post" enctype="multipart/form-data">
+            <div class="container" id="cvPreview">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="profile-picture">
+                        <img id="imagePreview" src="/images/loc6.jpg" class="job-image" alt="Profile Picture">
+                        <input type="file" name="ProfilePicture" id="avatarUpload" style="display: none;" />
+                    </div>
+
+                    <div class="section personal-info">
+                        <h2>THÔNG TIN CÁ NHÂN</h2>
+                        <p>🎂 <input type="text" name="DateOfBirth" placeholder="Ngày sinh (ví dụ: 19/05/1992)" class="form-control" /></p>
+                        <p>📞 <input type="tel" name="PhoneNumber" placeholder="Số điện thoại (ví dụ: (024) 6680 5588)" class="form-control" /></p>
+                        <p>✉️ <input type="email" name="Email" placeholder="Email (ví dụ: hotro@topcv.vn)" class="form-control" /></p>
+                        <p>📍 <input type="text" name="Address" placeholder="Địa chỉ (ví dụ: Số 10, đường 10, TopCV)" class="form-control" /></p>
+                    </div>
+
+                    <div class="section career-goals">
+                        <h2>MỤC TIÊU NGHỀ NGHIỆP</h2>
+                        <textarea name="CareerGoals" placeholder="Mục tiêu nghề nghiệp của bạn..." class="form-control"></textarea>
+                    </div>
+
+                    <div class="section skills">
+                        <h2>CÁC KỸ NĂNG</h2>
+                        <input type="text" name="SkillName" placeholder="Tên kỹ năng (ví dụ: Tin học văn phòng)" class="form-control" />
+                        <textarea name="Skills" placeholder="Mô tả kỹ năng..." class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="main-content">
+                    <div class="header1">
+                        <p>
+                            <input type="text" name="Name" placeholder="Tên Cv" class="form-control mb-3" />
+                        </p>
+                        <p>
+                            <input type="text" name="FullName" placeholder="Họ và tên (ví dụ: NGUYỄN VĂN A)" class="form-control mb-3" />
+                        </p>
+                        <p>
+                            <input type="text" name="JobTitle" placeholder="Chức vụ (ví dụ: NHÂN VIÊN KINH DOANH)" class="form-control mb-3" />
+                        </p>
+                    </div>
+
+                    <div class="section education">
+                        <h2>HỌC VẤN</h2>
+                        <input type="text" name="Education_SchoolName" placeholder="Tên trường (ví dụ: Đại học TOPCV)" class="form-control mb-3" />
+                        <p><input type="text" name="Education_Major" placeholder="Chuyên ngành (ví dụ: QUẢN TRỊ DOANH NGHIỆP)" class="form-control mb-3" /></p>
+                        <p>
+                            <div class="form-group">
+                                <label for="WorkExperience_StartDate">Từ:</label>
+                                <input type="date" name="WorkExperience_StartDate" id="WorkExperience_StartDate" class="form-control mb-3" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="WorkExperience_EndDate">Đến:</label>
+                                <input type="date" name="WorkExperience_EndDate" id="WorkExperience_EndDate" class="form-control mb-3" />
+                            </div>
+                        </p>
+                        <p><input type="text" name="Education_Degree" placeholder="Xếp loại (ví dụ: Tốt nghiệp loại Giỏi)" class="form-control mb-3" /></p>
+                    </div>
+
+                    <div class="section experience">
+                        <h2>KINH NGHIỆM LÀM VIỆC</h2>
+
+                        <div class="job">
+                            <p><strong><input type="text" name="WorkExperience_CompanyName" placeholder="Tên công ty (ví dụ: Công ty TOPCV)" class="form-control mb-3" /></strong></p>
+                            <p><input type="text" name="WorkExperience_Position" placeholder="Chức vụ (ví dụ: NHÂN VIÊN BÁN HÀNG)" class="form-control mb-3" /></p>
+                            <p>
+                                <div class="form-group">
+                                    <lable>Từ:</lable>
+                                    <input type="date" name="Education_StartDate" id="Education_StartDate" class="form-control mb-3" />
+                                </div>
+
+                                <div class="form-group">
+                                    <lable>Đến:</lable>
+                                    <input type="date" name="Education_EndDate" id="Education_EndDate" class="form-control mb-3" />
+                                </div>
+                            </p>
+                            <ul>
+                                <li><input type="text" name="WorkExperience_Description" placeholder="Mô tả công việc 1..." class="form-control mb-3" /></li>
+                               
+                            </ul>
+                        </div>
+
+                      
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Tạo CV</button>
+        </form>
+    </div>
+</body>
+</html>
+<style>
+    /* Header chứa thanh công cụ */
+    .header-create {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        display: flex;
+        position: fixed;
+        z-index: 100;
+        overflow-x: auto; /* Thêm thanh cuộn ngang */
+    }
+
+    /* Đảm bảo khoảng cách cho phần tạo CV */
+    .create-cv {
+        margin-top: 42px; /* Cách từ trên xuống 80px */
+    }
+
+    .cv-preview {
+        background-color: #fff;
+        padding: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .form-container {
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .btn-submit {
+        width: 100%;
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px;
+        color: white;
+        border: none;
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .add-more-btn {
+        margin-top: 10px;
+    }
+
+    .tool-section-top {
+        display: inline-flex;
+    }
+    /* CSS cho tool-section-bottom */
+    .tool-section-bottom {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ trên */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ dưới */
+        padding: 10px 0;
+    }
+
+        /* CSS cho các nút và phần tử trong tool-section-bottom */
+        .tool-section-bottom .tool-item {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+        }
+
+            .tool-section-bottom .tool-item:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                height: 70%; /* Chiều cao của gạch thẳng */
+                width: 1px;
+                background-color: rgba(0, 0, 0, 0.1); /* Gạch thẳng mờ giữa các mục */
+            }
+
+        /* Tạo khoảng cách giữa các chức năng và đường gạch */
+        .tool-section-bottom label,
+        .tool-section-bottom select,
+        .tool-section-bottom input {
+            margin: 0 10px;
+        }
+
+    .tool-section label {
+        margin-right: 5px;
+    }
+
+    .tool-input {
+        margin-right: 10px;
+        width: auto;
+    }
+
+    /* Đảm bảo CSS cho nút và input trong tool section */
+    .tool-item {
+        margin-left: 10px;
+    }
+
+ 
+
+</style>
+<style type="text/css">
+    .profile-picture {
+        position: relative;
+        width: 150px; /* Đặt kích thước thẻ label */
+        height: 150px;
+        border-radius: 50%; /* Làm cho thẻ label thành hình tròn */
+        overflow: hidden; /* Ẩn phần ảnh ngoài vùng tròn */
+        background-color: #ccc; /* Màu nền cho thẻ label */
+    }
+
+        .profile-picture img {
+            width: 100%; /* Đảm bảo ảnh chiếm hết chiều rộng */
+            height: 100%; /* Đảm bảo ảnh chiếm hết chiều cao */
+            object-fit: cover; /* Giữ tỷ lệ ảnh và làm vừa khít hình tròn */
+        }
+</style>
+<script>
+    // Thay đổi phông chữ
+    function changeFont() {
+        var font = document.getElementById('fontSelector').value;
+        document.getElementById('cvPreview').style.fontFamily = font;
+    }
+
+    // Thay đổi cỡ chữ
+    function changeFontSize() {
+        var fontSize = document.getElementById('fontSize').value + 'px';
+        document.getElementById('cvPreview').style.fontSize = fontSize;
+    }
+    // Thay đổi khoảng cách dòng
+    function changeLineHeight() {
+        var lineHeight = document.getElementById('lineHeight').value;
+        document.getElementById('cvPreview').style.lineHeight = lineHeight;
+    }
+
+
+    document.getElementById('profilePicture').addEventListener('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('profileImage').src = e.target.result; // Cập nhật ảnh
+        }
+        reader.readAsDataURL(this.files[0]); // Đọc ảnh
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Trigger file input when clicking on the image
+        $("#imagePreview").on("click", function () {
+            $("#avatarUpload").click();
+        });
+
+        // Show the selected file name and preview the image
+        $("#avatarUpload").on("change", function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+
+            }
+
+            // Trigger the upload when file is selected
+            uploadImage(file);
+        });
+
+        // Function to upload image using AJAX
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append("Image", file);
+
+            $.ajax({
+                url: '/Template/UploadImage',  // Update with the actual controller and action
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+            });
+        }
+    });
+
+</script>

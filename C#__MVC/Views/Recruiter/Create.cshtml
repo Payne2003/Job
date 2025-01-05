@@ -1,0 +1,35 @@
+﻿@model C___MVC.Models.Recruiter
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Add Recruiter</h4>
+        <p class="card-description">New Recruiter</p>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" type="text" class="form-control" id="exampleInputName1" placeholder="Name" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="email" class="form-control" id="exampleInputEmail3" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword4" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="template-demo">
+                <button asp-action="Create" type="submit" class="btn btn-outline-success btn-fw">Submit</button>
+                <a asp-action="Index" type="button" class="btn btn-outline-danger btn-fw">Danger</a>
+            </div>
+        </form>
+    </div>
+</div> 

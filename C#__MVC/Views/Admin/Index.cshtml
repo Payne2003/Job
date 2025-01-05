@@ -1,0 +1,235 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model dynamic
+<link rel="stylesheet" href="../../LayoutAdmin/assets/css/site.css">
+<div class="page-header">
+    <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+            <i class="mdi mdi-home"></i>
+        </span> Dashboard
+    </h3>
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">
+                <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-danger card-img-holder text-white">
+            <div class="card-body">
+                <img src="../LayoutAdmin/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
+                <h4 class="font-weight-normal mb-3">
+                    Total Candidates <i class="mdi mdi-account mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">@Model.TotalCandidates</h2>
+                <h6 class="card-text">Total Candidates in the system</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+            <div class="card-body">
+                <img src="../LayoutAdmin/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
+                <h4 class="font-weight-normal mb-3">
+                    Total Recruiters <i class="mdi mdi-account-group mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">@Model.TotalRecruiters</h2>
+                <h6 class="card-text">Total Recruiters registered</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-success card-img-holder text-white">
+            <div class="card-body">
+                <img src="../LayoutAdmin/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
+                <h4 class="font-weight-normal mb-3">
+                    Candidates with Resume <i class="mdi mdi-file-document mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">@Model.CandidatesWithResume</h2>
+                <h6 class="card-text">Candidates who have submitted their resumes</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Phần còn lại của view -->
+<div class="row">
+    <div class="col-md-7 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Candidates</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>CV</th>
+                            <th>Gender</th>
+                            <th> Progress </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Candidates.Count; i++)
+                        {
+                            var candidate = Model.Candidates[i];
+                            var completionPercentage = ViewBag.CandidateCompletion[i]; // Lấy tỷ lệ hoàn thành từ ViewBag
+
+                            <tr>
+                                <td>
+                                    <img src="~/images/@candidate.Avatar" alt="Avatar" style="width: 50px; height: auto;" />
+                                </td>
+                                <td>@candidate.Email</td>
+                                <td>@candidate.PhoneNumber</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(candidate.Cv))
+                                    {
+                                        <a href="~/cv/@candidate.Cv" download="@candidate.Cv">Download CV</a>
+                                    }
+                                    else
+                                    {
+                                        <span>No CV uploaded</span>
+                                    }
+                                </td>
+                                <td>@candidate.Gender</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-gradient-info" role="progressbar" style="width: @completionPercentage%" aria-valuenow="@completionPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Categories</h4>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category ID</th>
+                            <th>Category Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td>@category.CategoryId</td>
+                                <td>@category.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Recruiters</h4>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Gender</th>
+                            <th>Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Recruiters.Count; i++)
+                        {
+                            var recruiter = Model.Recruiters[i];
+                            var recruiterCompletion = ViewBag.RecruiterCompletion[i];
+
+                            <tr>
+                                <td>
+                                    <img src="~/images/@recruiter.Avatar" alt="Avatar" style="width: 50px; height: auto;" />
+                                </td>
+                                <td>@recruiter.Email</td>
+                                <td>@recruiter.PhoneNumber</td>
+                                <td>@recruiter.Gender</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-gradient-info" role="progressbar" style="width: @recruiterCompletion%" aria-valuenow="@recruiterCompletion" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Resumes</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Job Title (Job ID)</th>
+                                <th>CV</th>
+                                <th>Introduce</th>
+                                <th>Created At</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var resume in Model.Resumes)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="~/images/@resume.Candidate.Avatar" class="me-2" alt="image" style="width: 40px; height: 40px;">
+                                        @resume.Candidate.UserName
+                                    </td>
+                                    <td>
+                                        @resume.Job.Title (@resume.JobId) <!-- Hiển thị tên công việc và JobId -->
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("DownloadCv", "YourControllerName", new { jobId = resume.JobId, candidateId = resume.CandidateId })"
+                                           class="btn btn-primary btn-sm">
+                                            Download CV
+                                        </a>
+                                    </td>
+                                    <td>@resume.Introduce</td>
+                                    <td>@resume.CreatedAt.ToString("g")</td>
+                                    <td>
+                                        <label class="badge
+                                    @(resume.Status == ApplicationStatus.Accepted ? "badge-gradient-success" :
+                                      resume.Status == ApplicationStatus.Rejected ? "badge-gradient-danger" :
+                                      resume.Status == ApplicationStatus.Pending ? "badge-gradient-warning" : "badge-gradient-info")">
+                                            @resume.Status.ToString()
+                                        </label>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<C___MVC.Models.Resume>
+
+<div class="col-md-8 job_info_left">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var resume in Model)
+        {
+            <div class="tab_grid_prof">
+                <div class="col-sm-3 loc_1">
+                    <a href="single.html">
+                        <img src="@Url.Content("~/images/" + resume.Candidate.Avatar)" alt="">
+                    </a>
+                </div>
+                <div class="col-sm-9">
+                    <div class="location_box1">
+                        <h6>Name: @resume.Candidate.UserName</h6>
+                        <a asp-controller="Job" asp-action="Details" asp-route-id="@resume.Job.JobId">
+                            <span class="m_2_prof">Job: @resume.Job.Title</span>
+                        </a>
+                        <div class="person-info">
+                            <ul>
+                                <li><span>Email</span>: <a href="mailto:@resume.Candidate.Email">@resume.Candidate.Email</a></li>
+                                <li><span>Phone Number</span>: @resume.Candidate.PhoneNumber</li>
+                                <li>
+                                    <a href="@Url.Action("DownloadCv", "Resume", new { fileName = resume.Cv })">
+                                        <span>Cv</span>: @resume.Cv
+                                    </a>
+                                </li>
+                                <li><span>CreatedAt</span>: @resume.CreatedAt.ToString("dd/MM/yyyy")</li>
+                                <li><span>Status</span>: @resume.Status</li>
+                            </ul>
+                        </div>
+                        <form method="post" asp-controller="Resume" asp-action="AcceptResume" style="display:inline;" onsubmit="return confirmAccept();">
+                            <input type="hidden" name="jobId" value="@resume.JobId" />
+                            <input type="hidden" name="candidateId" value="@resume.CandidateId" />
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+
+                        <form method="post" asp-controller="Resume" asp-action="RejectResume" style="display:inline;" onsubmit="return confirmDelete();">
+                            <input type="hidden" name="jobId" value="@resume.JobId" />
+                            <input type="hidden" name="candidateId" value="@resume.CandidateId" />
+                            <input type="hidden" name="returnUrl" value="ListByRecruiter" />
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No Jobs found.</p>
+    }
+</div>

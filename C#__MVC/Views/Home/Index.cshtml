@@ -1,0 +1,378 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+		<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+		<li data-target="#myCarousel" data-slide-to="3" class=""></li>
+	</ol>
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<div class="container">
+				<div class="carousel-caption">
+					<h3>Career advancement</h3>
+					
+				</div>
+			</div>
+		</div>
+		<div class="item item2">
+			<div class="container">
+				<div class="carousel-caption">
+					<h3>Perfect your skills</h3>
+					
+				</div>
+			</div>
+		</div>
+		<div class="item item3">
+			<div class="container">
+				<div class="carousel-caption">
+					<h3>Dream job</h3>
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="item item4">
+			<div class="container">
+				<div class="carousel-caption">
+
+					<h3>Master your career</h3>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+		<span class="fa fa-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+		<span class="fa fa-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	</a>
+</div>
+@await Html.PartialAsync("_Notification")
+<div id="search_form" class="search_top">
+	<h2>Start your job search</h2>
+	<form id="searchForm" asp-action="FindJob" asp-controller="Job" method="post">
+		<input id="keyword" type="text" name="Enter Keyword(s)" placeholder="Enter Keyword(s)" required="">
+		<select id="location" name="locationId"onchange="change_country(this.value)" class="slt frm-field required">
+			<option value="" disabled selected>Select Location</option> <!-- Placeholder option -->
+			@await Component.InvokeAsync("Location")
+		</select>
+		<select id="category" name="categoryId" onchange="change_country(this.value)" class="slt frm-field required">
+			<option value="" disabled selected>Select Category</option> <!-- Placeholder option -->
+			@await Component.InvokeAsync("FindCategory")
+		</select>
+		<input id="btn-find_job" type="submit" value="Find Jobs">
+		<div class="clearfix"></div>
+	</form>
+</div>
+
+<div class="banner-bottom">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">About Us</h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="col-md-6 banner_bottom_left">
+				<h4>Exciting Career Opportunities for <span>Candidates</span></h4>
+				<p>
+				<p>
+					Explore a wide range of job openings designed to match your skills and aspirations. Whether you're just starting your career or looking for the next big move, we’re here to help you succeed.
+				</p>
+				<p>
+					Join a thriving community of professionals and access tools, resources, and expert guidance to land your dream job. Your journey to a fulfilling career starts here!
+				</p>
+
+				<ul class="some_agile_facts">
+					<li><span class="fa fa-line-chart" aria-hidden="true"></span> Create an environment that connects candidates and employers</li>
+					<li><span class="fa fa-briefcase" aria-hidden="true"></span> Over 1000 different jobs</li>
+					<li><span class="fa fa-graduation-cap" aria-hidden="true"></span> Diversified industries and fields</li>
+					<li><span class="fa fa-user" aria-hidden="true"></span> Opportunity to work with large companies</li>
+					
+				</ul>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="col-md-6 banner_bottom_right">
+				<div class="agileits_w3layouts_banner_bottom_grid">
+					<img src="/imgFinal/anhhr_timviec.png" alt=" " class="img-responsive" style="height:contain;height: 450px;">
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+
+	</div>
+</div>
+
+<div class="team_work_agile">
+	<h4>Whether we play a large or small role, by working together we achieve our objectives.</h4>
+	<div class="services" id="services">
+		<div class="container">
+			<div class="tittle_head_w3ls">
+				<!-- Tiêu đề -->
+			</div>
+			<div class="inner_sec_grids_info_w3ls">
+				<!-- Cột bên trái -->
+				<div class="col-md-3 services-left">
+					<div class="services-left-top">
+						<h5>Do what you love, and you'll never work a day in your life.</h5>
+					</div>
+					<div class="services-left-top services-left-top1">
+						<h5>Success is not the key to happiness. Happiness is the key to success.</h5>
+					</div>
+				</div>
+
+				<!-- Hình ảnh ở giữa -->
+				<div class="col-md-6 services-middle">
+					<div class="services-middle-img">
+						<img src="images/process.jpg" alt="" />
+					</div>
+					<div class="services-middle-grids">
+						<div class="col-md-6 services-middle-left">
+							<div class="services-left-top">
+								<h5>The only way to do great work is to love what you do</h5>
+							</div>
+						</div>
+						<div class="col-md-6 services-middle-left">
+							<div class="services-left-top">
+								<h5>Hard work beats talent when talent doesn’t work hard.</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Cột bên phải -->
+				<div class="col-md-3 services-left">
+					<div class="services-left-top">
+						<h5>Focus on being productive instead of being busy.</h5>
+					</div>
+					<div class="services-left-top services-left-top1">
+						<h5>Be a lifelong learner, and the work will always inspire you.</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).on('click', '.nav-item', function (e) {
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response);
+				}
+			});
+		});
+		$(document).ready(function () {
+			$('#btn-find_job').click(function (e) {
+				e.preventDefault(); // Ngăn chặn việc gửi form theo cách thông thường
+
+				// Lấy dữ liệu từ các trường input và select
+				var keyword = $('#keyword').val();
+				var locationId = $('#location').val();
+				var categoryId = $('#category').val();
+
+				// Tạo URL với tham số tìm kiếm
+				var url = '/Job/FindJob?key=' + encodeURIComponent(keyword) +
+					'&locationId=' + encodeURIComponent(locationId) +
+					'&categoryId=' + encodeURIComponent(categoryId);
+
+				// Chuyển hướng đến URL mới
+				window.location.href = url;
+			});
+		});
+		window.addEventListener('scroll', function () {
+    var banner = document.querySelector('.banner-bottom');
+    var bannerPosition = banner.getBoundingClientRect().top;
+    var screenPosition = window.innerHeight;
+
+    if (bannerPosition < screenPosition) {
+        banner.classList.add('active');
+    } else {
+        banner.classList.remove('active');
+    }
+});
+		window.addEventListener('scroll', function () {
+			var factsList = document.querySelector('.some_agile_facts');
+			var factsPosition = factsList.getBoundingClientRect().top;
+			var screenPosition = window.innerHeight;
+
+			if (factsPosition < screenPosition) {
+				factsList.classList.add('visible');
+			} else {
+				factsList.classList.remove('visible');
+			}
+		});
+		window.addEventListener('scroll', function () {
+			var elements = document.querySelectorAll('.services-left, .services-middle, .services-left-top, .services-middle-left');
+			var windowHeight = window.innerHeight;
+
+			elements.forEach(function (element) {
+				var elementPosition = element.getBoundingClientRect().top;
+
+				// Kiểm tra xem phần tử có trong viewport không
+				if (elementPosition < windowHeight - 100) {
+					element.classList.add('active');
+				} else {
+					element.classList.remove('active'); // Gỡ lớp nếu ra khỏi viewport
+				}
+			});
+		});
+
+	</script>
+}
+<style>
+    .slt{
+		font-weight: normal;
+		width: 27%;
+		border: none;
+		outline: none;
+		color: #777;
+		float: left;
+		background: #fff;
+		outline: none;
+		font-size: 0.91em;
+		padding: 1em 1em;
+		border: none;
+		letter-spacing: 1px;
+		margin-right: 7px;
+		min-height: 49.80px;
+		border-radius: 10px;
+	}
+	.tab_grid {
+		border: 1px solid #ddd;
+		border-radius: 5px;
+		overflow: hidden;
+		background-color: #fff;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.loc_1 img {
+		width: 100%;
+		height: 200px; /* Đặt chiều cao cố định cho hình ảnh */
+		object-fit: cover; /* Đảm bảo hình ảnh không bị méo mó */
+		display: block;
+	}
+
+	.jobs_right {
+		padding: 15px;
+	}
+
+	.date_desc {
+		margin-bottom: 10px;
+	}
+
+	.description {
+		margin-bottom: 10px;
+	}
+
+	.salary {
+		margin-bottom: 10px;
+	}
+
+	.top-btns {
+		list-style: none;
+		padding: 0;
+	}
+
+		.top-btns li {
+			display: inline;
+			margin-right: 5px;
+		}
+
+	.clearfix {
+		clear: both;
+	}
+
+	.carousel-caption h3 {
+		opacity: 0.5; /* Đặt độ mờ (0.0 là hoàn toàn trong suốt, 1.0 là rõ ràng) */
+		transition: opacity 0.3s ease-in-out; /* Tạo hiệu ứng mượt khi thay đổi */
+	}
+
+		/* Loại bỏ độ mờ khi hover */
+		.carousel-caption h3:hover {
+			opacity: 1; /* Hiển thị rõ khi người dùng di chuột vào */
+		}
+
+	.banner-bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding: 50px 0;
+		overflow: hidden;
+	}
+
+	.inner_sec_grids_info_w3ls {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.banner_bottom_left, .banner_bottom_right {
+		width: 45%;
+		opacity: 0;
+		transform: translateX(-300px); /* Move the left content off screen initially */
+		transition: all 3s ease;
+	}
+
+	.banner_bottom_right {
+		transform: translateX(300px); /* Move the image off screen initially */
+	}
+
+	.banner-bottom.active .banner_bottom_left, .banner-bottom.active .banner_bottom_right {
+		opacity: 1;
+		transform: translateX(0); /* Move to center */
+	}
+
+	.some_agile_facts {
+		opacity: 0;
+		transform: translateY(50px); /* Start with the list moved down */
+		transition: opacity 2s ease, transform 2s ease; /* Smooth transition */
+	}
+
+		.some_agile_facts.visible {
+			opacity: 1; /* Make it visible */
+			transform: translateY(0); /* Bring it back to its original position */
+		}
+
+	ul.some_agile_facts li:hover{
+		color:green;
+	}
+
+
+	/* You can add a simple transition effect when you scroll */
+	img {
+		transition: transform 3''s ease-out;
+	}
+	/* Ẩn nội dung ban đầu */
+	.services-left, .services-middle, .services-left-top, .services-middle-left {
+		opacity: 0; /* Nội dung ban đầu bị ẩn */
+		transform: translateY(50px); /* Vị trí ban đầu (di chuyển từ dưới lên) */
+		transition: opacity 1s ease, transform 1s ease; /* Hiệu ứng mượt */
+	}
+
+		/* Khi xuất hiện trong viewport */
+		.services-left.active,
+		.services-middle.active,
+		.services-left-top.active,
+		.services-middle-left.active {
+			opacity: 1; /* Hiển thị nội dung */
+			transform: translateY(0); /* Quay về vị trí ban đầu */
+		}
+
+
+</style>

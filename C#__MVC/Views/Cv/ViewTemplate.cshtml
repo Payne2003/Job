@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Xem Mẫu CV";
+}
+
+@* <link rel="stylesheet" type="text/css" href="@ViewBag.CssPath" /> *@
+
+  <div class="cv-template"> <!-- Thêm class cv-template -->
+    @Html.Raw(ViewBag.HtmlContent) <!-- Nội dung HTML của mẫu CV -->
+    </div>

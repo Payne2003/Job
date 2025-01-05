@@ -1,0 +1,28 @@
+﻿@model IEnumerable<dynamic>
+
+
+    <table class="table">
+        <tbody>
+            @foreach (var jobGroup in Model.GroupBy(x => x.JobTitle))
+            {
+                <tr>
+                    <td colspan="3"><strong>@jobGroup.Key</strong></td>
+                </tr>
+                @foreach (var skill in jobGroup)
+                {
+                    <tr class="unread checked">
+                        <td class="hidden-xs">
+                            <input type="checkbox" name="skillIds" value="@skill.SkillId" class="checkbox">
+                        </td>
+                        <td class="hidden-xs">
+                            @skill.SkillName
+                        </td>
+                        <td>
+                            @skill.JobTitle
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+  

@@ -1,0 +1,203 @@
+﻿@{
+    ViewData["Title"] = "SavedJob";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<C___MVC.Models.SavedJob>
+
+
+    <div class="inner_page_agile">
+        <h3>Jobs</h3>
+     
+    </div>
+
+    <div class="services-breadcrumb_w3layouts">
+        <div class="inner_breadcrumb">
+            <ul class="short_w3ls">
+            <li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+                <li>Saved Job</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="inner_content_info_agileits">
+        <div class="container">
+            <div class="tittle_head_w3ls">
+                <h3 class="tittle">Jobs Saved</h3>
+            </div>
+
+            <div class="inner_sec_grids_info_w3ls">
+                <div class="col-md-8 job_info_left">
+                    <div class="but_list">
+                        <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                           
+
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (var savedJob in Model)
+                                    {
+                                        <div class="tab_grid">
+                                            <div class="col-sm-3 loc_1">
+                                                <a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-id="@savedJob.JobId">
+                                                    <img src="@Url.Content("~/images/" + savedJob.Job.Image)" alt="">
+                                                </a>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <div class="jobs_right">
+                                                    <div class="date">
+                                                        @savedJob.Job.ExpiredAt.ToString("dd")
+                                                        <span>@savedJob.Job.ExpiredAt.ToString("MMM")</span>
+                                                    </div>
+
+                                                    <div class="date_desc">
+                                                        <h6 class="title">
+                                                            <a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-id="@savedJob.JobId">
+                                                                @savedJob.Job.Title
+                                                            </a>
+                                                        </h6>
+                                                        <span class="meta">@savedJob.Job.Location.Province</span>
+                                                    </div>
+
+                                                    <p class="description">@savedJob.Job.Description</p>
+
+                                                    <p>Saved at: @savedJob.SavedAt.ToString("MM/dd/yyyy hh:mm tt")</p>
+
+                                                    <div class="delete-job">
+                                                        <button type="button" class="btn btn-danger delete-saved-job" data-jobid="@savedJob.JobId">Delete</button>
+                                                    </div>
+
+
+                                                    <ul class="top-btns">
+                                                       
+                                                        @foreach (var link in savedJob.Job.Links)
+                                                        {
+                                                            <li>
+                                                                @if (link.Name == "Google Maps")
+                                                                {
+                                                                    <a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a>
+                                                                }
+                                                                else if (link.Name == "Facebook")
+                                                                {
+                                                                    <a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a>
+                                                                }
+                                                                else if (link.Name == "YouTube")
+                                                                {
+                                                                    <a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a>
+                                                                }
+                                                                else if (link.Name == "Instagram")
+                                                                {
+                                                                    <a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a>
+                                                                }
+                                                            </li>
+                                                        }
+                                                    </ul>
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>You haven't saved any job yet.</p>
+                                }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-4 job_info_right">
+                <div class="widget_search">
+                    <h5 class="widget-title">Search</h5>
+                    <div class="widget-content">
+                        <span>I'm looking for a ...</span>
+                        <select id="category" class="form-control jb_1">
+                            @await Component.InvokeAsync("FindCategory")
+                        </select>
+                        <span>in</span>
+                        <select id="location" onchange="change_country(this.value)" class="form-control jb_1">
+                            <option value="" disabled selected>Select Location</option> <!-- Placeholder option -->
+                            @await Component.InvokeAsync("Location")
+                        </select>
+                        <input id="btn-categoryandlocation" type="submit" value="Search">
+                    </div>
+                </div>
+               
+           
+            </div>
+		<div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        // Khi người dùng nhấn vào nút "Delete"
+        $('.delete-saved-job').on('click', function (e) {
+            e.preventDefault(); // Ngăn trang load lại
+
+            var jobId = $(this).data('jobid'); // Lấy jobId từ thuộc tính data-jobid
+
+            if (confirm('Are you sure you want to delete this saved job?')) {
+                $.ajax({
+                    url: '/Job/DeleteSavedJob', // Gửi yêu cầu đến action controller
+                    type: 'POST',
+                    data: { jobId: jobId }, // Truyền jobId đến controller
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // Hiển thị thông báo thành công
+                            location.reload(); // Tải lại trang để cập nhật danh sách
+                        } else {
+                            alert(response.message); // Hiển thị thông báo lỗi
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the job.'); // Thông báo khi gặp lỗi
+                    }
+                });
+            }
+        });
+    });
+    $(document).ready(function () {
+        // Bắt sự kiện khi nhấn nút #btn-categoryandlocation
+        $('#btn-categoryandlocation').click(function (e) {
+            e.preventDefault(); // Ngăn trang reload
+
+            // Lấy giá trị từ dropdown #category và #location
+            var selectedCategory = $('#category').val();
+            var selectedLocation = $('#location').val();
+
+            // Kiểm tra nếu người dùng đã chọn category và location
+            if (selectedCategory && selectedLocation) {
+                // Gửi request Ajax tới server
+                $.ajax({
+                    url: '@Url.Action("FindJobSavedNotKey", "Job")', // Địa chỉ action FilterByCategoryAndLocation
+                    type: 'POST', // Phương thức POST
+                    data: { categoryId: selectedCategory, locationId: selectedLocation }, // Dữ liệu gửi lên server
+                    success: function (result) {
+                        // Đưa kết quả (danh sách công việc) vào div #myTabContent
+                        $('div#myTabContent').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        // Hiển thị thông báo lỗi nếu có
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            } else {
+                alert("Please select both Category and Location.");
+            }
+        });
+    });
+       
+</script>

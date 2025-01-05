@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "ListResumebyJob";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<C___MVC.Models.Resume>
+<link href="~/css/bootstrap2.css" rel="stylesheet" type="text/css" media="all" />
+<link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+
+    <div class="inner_page_agile text-center">
+        <!-- Thông tin công việc -->
+        <h3 class="mt-4 mb-3">@ViewBag.JobTitle</h3>
+        <p class="lead">Quantity: @ViewBag.JobNumber</p>
+    </div>
+    <div class="services-breadcrumb_w3layouts">
+        <div class="inner_breadcrumb">
+
+            <ul class="short_w3ls" _w3ls="">
+			<li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+                <li>Job Poster</li>
+            </ul>
+        </div>
+    </div>
+    <div class="inner_content_info_agileits">
+	    <div class="container">
+            <div class="tittle_head_w3ls">
+                <h3 class="tittle">Candidates </h3>
+            </div>
+            <div class="inner_sec_grids_info_w3ls">
+                <div class="col-md-8 job_info_left">
+				@if (Model != null && Model.Any())
+				{
+                            @foreach (var resume in Model)
+                            {
+                             <div class="tab_grid_prof">
+                                <div class="col-sm-3 loc_1">
+                                    <a href="single.html"><img src="@Url.Content("~/images/" + resume.Candidate.Avatar)" alt=""></a>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="location_box1">
+									<h6>Name: @resume.Candidate.UserName</h6>
+									<a asp-controller ="Job" asp-action="Details" asp-route-id="@resume.Job.JobId"><span class="m_2_prof">Job: @resume.Job.Title</span></a>
+                                        <div class="person-info">
+                                            <ul>
+
+											<li><span>Email</span>: <a href="mailto:@resume.Candidate.Email" >@resume.Candidate.Email</a></li>
+												<li><span>Phone Number</span>: @resume.Candidate.PhoneNumber</li>
+												<li>
+													<a href="@Url.Action("DownloadCv", "Resume", new { fileName = resume.Cv })">
+														<span>Cv</span>: @resume.Cv
+													</a>
+												</li>
+												<li><span>CreatedAt</span>: @resume.CreatedAt.ToString("dd/MM/yyyy")</li>
+												<li><span>Status</span>: @resume.Status</li>
+                                            </ul>
+                                        </div>
+									<form method="post" asp-controller="Resume" asp-action="AcceptResume" style="display:inline;" onsubmit="return confirmAccept();">
+										<input type="hidden" name="jobId" value="@resume.JobId" />
+										<input type="hidden" name="candidateId" value="@resume.CandidateId" />
+										<button type="submit" class="btn btn-success">Accept</button>
+									</form>
+
+									<form method="post" asp-controller="Resume" asp-action="RejectResume" style="display:inline;" onsubmit="return confirmDelete();">
+										<input type="hidden" name="jobId" value="@resume.JobId" />
+										<input type="hidden" name="candidateId" value="@resume.CandidateId" />
+										<input type="hidden" name="returnUrl" value="ListByRecruiter" />
+										<button type="submit" class="btn btn-danger">Reject</button>
+									</form>
+                                        <ul class="top-btns">
+                                            <li><a href="#" class="fa fa-heart toggle"></a></li>
+                                            <li><a href="#" class="fa fa-star"></a></li>
+                                            <li><a href="#" class="fa fa-link"></a></li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+					}
+				}
+				else
+				{
+					<p>No Candidates found.</p>
+				}
+                <div class="col-md-4 job_info_right">
+
+                    <div class="widget_search">
+                        <h5 class="widget-title">Search</h5>
+                        <div class="widget-content">
+                            <form asp-controller="Resume" asp-action="Search" method="post">
+                                <span>I'm looking for a ...</span>
+                                <input id="keyword" type="text" name="keyword" placeholder="Enter Keyword(s)" required="">
+                                <input type="submit" value="Search">
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+         </div>
+	</div>
+    <script src="../js/bootstrap.js"></script>
+
+
+@section Scripts {
+	<script type="text/javascript">
+		function confirmDelete() {
+			return confirm("Are you sure you want to reject this resume?");
+		}
+		function confirmAccept() {
+			return confirm("Bạn có chắc chắn muốn chấp nhận hồ sơ này không?");
+		}
+	</script>
+}

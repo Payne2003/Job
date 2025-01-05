@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CvTemplate>
+
+@{
+    ViewData["Title"] = "Cv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+    <div class="d-flex justify-content-center" style="width: 80%; margin: 0 auto;">
+        <!-- Căn giữa thẻ bao bọc với chiều rộng 80% -->
+        @foreach (var template in Model)
+        {
+            <div class="tab_grid mx-2">
+                <!-- Thêm khoảng cách giữa các hình ảnh -->
+                <a asp-action="CreateCv" asp-route-id="@template.TemplateId">
+                    <img src="~/images/@template.Image" alt="@template.TemplateName" style="width: 90%; height: auto;" />
+                </a>
+
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .tab_grid {
+        padding: 0; /* Xóa padding bên trong lưới */
+        margin: 0; /* Xóa margin nếu có */
+    }
+
+        .tab_grid img {
+            display: block; /* Đảm bảo không có khoảng cách dưới hình ảnh */
+            margin: 0; /* Xóa margin từ hình ảnh */
+        }
+
+    .d-flex {
+        display: flex; /* Đảm bảo rằng chúng ta sử dụng Flexbox */
+        flex-wrap: nowrap; /* Không bọc các hình ảnh vào hàng mới */
+        justify-content: center; /* Căn giữa các hình ảnh */
+    }
+
+    .tab-pane {
+        padding-top: 20px;
+        padding-bottom: 20px;/* Khoảng cách 20px trên nội dung chính */
+    }
+</style>

@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model C___MVC.Models.Contact
+<div class="inner_page_agile">
+	<h3>Contact</h3>
+
+
+</div>
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls="">
+			<li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+			<li>Contact</li>
+		</ul>
+	</div>
+</div>
+<div class="inner_content_info_agileits">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">Contact Us</h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="col-md-4 agile_info_mail_img_info">
+				<div class="address-grid">
+					<h4>Contact <span>Info</span></h4>
+					<div class="mail-agileits-w3layouts">
+						<i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+						<div class="contact-right">
+							<p>Telephone </p><span>0387559262</span>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="mail-agileits-w3layouts">
+						<i class="fa fa-envelope-o" aria-hidden="true"></i>
+						<div class="contact-right">
+							<p>Mail </p><a href="mailto:lahuuduy28@gmail.com">lahuuduy28@gmail.com</a>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="mail-agileits-w3layouts">
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						<div class="contact-right">
+							<p>Location</p><span>UTC, CNTT, HaNoi city.</span>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="agileits_w3layouts_nav_right contact">
+						<div class="social two">
+							<ul>
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-rss"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8 agile_info_mail_img" style="height:100px">
+			</div>
+			<div class="clearfix"> </div>
+			<div class="w3layouts_mail_grid">
+				<form asp-action="SendEmail">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="col-md-6 wthree_contact_left_grid">
+					<div class="form-group">
+						<label asp-for="Name" class="control-label"></label>
+							<input asp-for="Name" type="text" class="form-control" />
+						<span asp-validation-for="Name" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Email" class="control-label"></label>
+							<input asp-for="Email" type="email" class="form-control" />
+						<span asp-validation-for="Email" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Telephone" class="control-label"></label>
+							<input asp-for="Telephone" type="text" class="form-control" />
+						<span asp-validation-for="Telephone" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Subject" class="control-label"> Topic </label>
+							<input asp-for="Subject" type="text" class="form-control" />
+						<span asp-validation-for="Subject" class="text-danger"></span>
+					</div>
+					</div>
+					<div class="col-md-6 wthree_contact_left_grid">
+					<div class="form-group">
+						<label asp-for="Message" class="control-label"></label>
+						<textarea asp-for="Message" name="Message" placeholder="Message..." required=""></textarea>
+						<span asp-validation-for="Message" class="text-danger"></span>
+					</div>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit" class="btn btn-primary" />
+					</div>
+				</form>
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+<div class="map">
+	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8716302313816!2d105.8034205!3d21.0281545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab424a50fff9%3A0xbe3a7f3670c0a45f!2sTr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20Giao%20th%C3%B4ng%20V%E1%BA%ADn%20T%E1%BA%A3i!5e0!3m2!1svi!2s!4v1700000000000" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+
+
+
+</div>
+@section Scripts {
+	<script>
+		$(document).on('click', '.nav-item', function (e) {
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response);
+				}
+			});
+		});
+	</script>
+}

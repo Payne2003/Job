@@ -1,0 +1,408 @@
+﻿
+@{
+    ViewData["Title"] = "DeveloperTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model C___MVC.Dto.CvDto
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" media="print" onload="this.media='all'" />
+<noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+</noscript>
+<link href="~/templates/right-resume_free_1-2-0//css/font-awesome/../right-resume_free_1-2-0/css/all.min.css?ver=1.2.0" rel="stylesheet">
+<link href="~/templates/right-resume_free_1-2-0//css/bootstrap.css" rel="stylesheet">
+<link href="~/templates/right-resume_free_1-2-0//css/aos.css" rel="stylesheet">
+<link href="~/templates/right-resume_free_1-2-0//css/main.css" rel="stylesheet">
+<noscript>
+    <style type="text/css">
+        [data-aos] {
+            opacity: 1 !important;
+            transform: translate(0) scale(1) !important;
+        }
+    </style>
+</noscript>
+<style type="text/css">
+    .avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Đảm bảo căn giữa nội dung */
+        max-width: 100%; /* Đặt kích thước tối đa cho container */
+        height: auto;
+    }
+
+        .avatar img.job-image {
+            width: 100%; /* Hình ảnh sẽ chiếm toàn bộ chiều rộng của div cha */
+            height: auto; /* Đảm bảo giữ tỷ lệ của ảnh */
+            object-fit: cover; /* Cắt ảnh nếu không khớp, có thể đổi thành contain nếu muốn toàn bộ ảnh hiển thị */
+            border-radius: 50%; /* Thêm nếu muốn hình ảnh tròn */
+        }
+
+    .file-name-display {
+        width: 100%; /* Đặt trường văn bản cũng chiếm toàn bộ chiều rộng */
+    }
+
+</style>
+<div class="create-cv">
+    @await Html.PartialAsync("HeaderTemplate")
+<div class="page-content">
+    <div class="container" id="cvPreview" style="padding: 130px 50px;">
+        <form asp-action="EditTemplate" method="post" enctype="multipart/form-data">
+            <div class="cover shadow-lg bg-white">
+                <div class="cover-bg p-3 p-lg-4 text-white">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="avatar hover-effect bg-white shadow-sm p-1">
+                                <div>
+                                    <img id="imagePreview" src="~/images/loc6.jpg" class="job-image">
+                                </div>
+                                <div>
+                                    <input asp-for="ProfilePicture" type="file" class="file-upload-default" id="avatarUpload" style="display: none;" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-8 col-md-7 text-center text-md-start">
+                            <div class="form-group mb-3" data-aos="fade-left" data-aos-delay="0">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <input asp-for="Name" class="form-control" placeholder="Enter Your Name CV" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <!-- Full Name -->
+                            <div class="form-group mb-3" data-aos="fade-left" data-aos-delay="0">
+                                <label asp-for="FullName" class="form-label"></label>
+                                <input asp-for="FullName" class="form-control" placeholder="Enter Your Name" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="form-group mb-3" data-aos="fade-left" data-aos-delay="100">
+                                <label asp-for="Address" class="form-label"></label>
+                                <input asp-for="Address" class="form-control" placeholder="Enter Your Address" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group mb-3" data-aos="fade-left" data-aos-delay="150">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" placeholder="Enter Your Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="form-group mb-3" data-aos="fade-left" data-aos-delay="200">
+                                <label asp-for="PhoneNumber" class="form-label"></label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Your Phone Number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2 class="h3 mb-3">About me</h2>
+                            <div class="form-group">
+                                <textarea asp-for="BusinessCard" class="form-control" rows="5" placeholder="Enter Your Business Card"></textarea>
+                                <span asp-validation-for="BusinessCard" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 offset-md-1">
+                            <div class="row mt-2">
+                                <!-- Thêm trường Mục tiêu nghề nghiệp -->
+                                <div class="col-sm-4">
+                                    <div class="pb-1">Career</div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <textarea asp-for="CareerObjective" class="form-control" rows="3" placeholder="Enter Your Career Objective">I aim to leverage my skills in front-end development and UI/UX design to create user-friendly web applications and further develop my technical expertise.</textarea>
+                                        <span asp-validation-for="CareerObjective" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr class="d-print-none">
+                <div class="skills-section px-3 px-lg-4">
+                    <h2 class="h3 mb-3">Experience</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="WorkExperience_CompanyName" class="form-label"></label>
+                                <input asp-for="WorkExperience_CompanyName" class="form-control" placeholder="Enter Your Company" />
+                                <span asp-validation-for="WorkExperience_CompanyName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="WorkExperience_Position" class="form-label"></label>
+                                <input asp-for="WorkExperience_Position" class="form-control" placeholder="Enter Your Position" />
+                                <span asp-validation-for="WorkExperience_Position" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="WorkExperience_StartDate" class="form-label"></label>
+                                <input asp-for="WorkExperience_StartDate" class="form-control" type="date" />
+                                <span asp-validation-for="WorkExperience_StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="WorkExperience_EndDate" class="form-label"></label>
+                                <input asp-for="WorkExperience_EndDate" class="form-control" type="date" />
+                                <span asp-validation-for="WorkExperience_EndDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label asp-for="WorkExperience_Description" class="form-label"></label>
+                                <textarea asp-for="WorkExperience_Description" rows="4" class="form-control" placeholder="Enter Your Description"></textarea>
+                                <span asp-validation-for="WorkExperience_Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="d-print-none"><div class="work-experience-section px-3 px-lg-4">
+                    <div class="timeline">
+                        <!-- Phần Học Vấn -->
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">Education</div>
+                                <div class="mb-3">
+                                    <label asp-for="Education_SchoolName" class="form-label">School Name</label>
+                                    <input asp-for="Education_SchoolName" class="form-control" placeholder="Enter Your School Name" />
+                                    <span asp-validation-for="Education_SchoolName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Education_Degree" class="form-label">Degree</label>
+                                    <input asp-for="Education_Degree" class="form-control" placeholder="Enter Your Degree" />
+                                    <span asp-validation-for="Education_Degree" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Education_StartDate" class="form-label">Start Date</label>
+                                    <input asp-for="Education_StartDate" type="date" class="form-control" />
+                                    <span asp-validation-for="Education_StartDate" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Education_EndDate" class="form-label">End Date</label>
+                                    <input asp-for="Education_EndDate" type="date" class="form-control" />
+                                    <span asp-validation-for="Education_EndDate" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Education_Major" class="form-label">Major</label>
+                                    <input asp-for="Education_Major" class="form-control" placeholder="Enter Your Major" />
+                                    <span asp-validation-for="Education_Major" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần Kỹ Năng -->
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">Skills</div>
+                                <div class="mb-3">
+                                    <label asp-for="SkillsName" class="form-label">SKills Name</label>
+                                    <input asp-for="SkillsName" class="form-control" placeholder="Enter Name" />
+                                    <span asp-validation-for="SkillsName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Skills" class="form-label">Skill Level (0-100)</label>
+                                    <input asp-for="Skills" type="number" class="form-control" placeholder="Enter Your Descriotion" min="0" max="100" />
+                                    <span asp-validation-for="Skills" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần Chứng Chỉ -->
+                        <div class="timeline-card timeline-card-primary card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">Evidence Certificate</div>
+                                <div class="mb-3">
+
+                                    <label asp-for="Certificate_CertificateName" class="form-label">Certificate Name</label>
+                                    <input asp-for="Certificate_CertificateName" class="form-control" placeholder="Enter Name" />
+                                    <span asp-validation-for="Certificate_CertificateName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Certificate_IssuedDate" class="form-label">Issued Date</label>
+                                    <input asp-for="Certificate_IssuedDate" type="date" class="form-control" />
+                                    <span asp-validation-for="Certificate_IssuedDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="d-print-none">
+                <div class="skills-section px-3 px-lg-4">
+                    <h2 class="h3 mb-3">Project</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Project_ProjectName" class="form-label">Project Name</label>
+                                <input asp-for="Project_ProjectName" class="form-control" placeholder="Enter Your Project Name" />
+                                <span asp-validation-for="Project_ProjectName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Project_Description" class="form-label">Project Description</label>
+                                <textarea asp-for="Project_Description" class="form-control" rows="3" placeholder=""></textarea>
+                                <span asp-validation-for="Project_Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Project_Role" class="form-label">Role</label>
+                                <input asp-for="Project_Role" class="form-control" placeholder="" />
+                                <span asp-validation-for="Project_Role" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Project_StartDate" class="form-label">Start Date</label>
+                                <input asp-for="Project_StartDate" type="date" class="form-control" />
+                                <span asp-validation-for="Project_StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Project_EndDate" class="form-label">End Date</label>
+                                <input asp-for="Project_EndDate" type="date" class="form-control" />
+                                <span asp-validation-for="Project_EndDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="d-print-none">
+                <div class="skills-section px-3 px-lg-4">
+                    <h2 class="h3 mb-3">Activity</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Activity_ActivityName" class="form-label">Activity Name</label>
+                                <input asp-for="Activity_ActivityName" class="form-control" placeholder="" />
+                                <span asp-validation-for="Activity_ActivityName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Activity_Description" class="form-label">Activity Description</label>
+                                <textarea asp-for="Activity_Description" class="form-control" placeholder="" rows="3"></textarea>
+                                <span asp-validation-for="Activity_Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="d-print-none">
+                <div class="page-break"></div><div class="education-section px-3 px-lg-4 pb-4">
+                    <div class="timeline">
+
+                        <!-- Phần Sở Thích -->
+                        <div class="timeline-card timeline-card-success card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">Favourite</div>
+                                <div class="mb-3">
+                                    <label asp-for="Hobbies" class="form-label">Hobbies</label>
+                                    <input asp-for="Hobbies" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Hobbies" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần Người Tham Chiếu -->
+                        <div class="timeline-card timeline-card-success card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">References</div>
+                                <div class="mb-3">
+                                    <label asp-for="Reference_Name" class="form-label">Reference Name</label>
+                                    <input asp-for="Reference_Name" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Reference_Name" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Reference_Position" class="form-label">Position</label>
+                                    <input asp-for="Reference_Position" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Reference_Position" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Reference_Company" class="form-label">Company</label>
+                                    <input asp-for="Reference_Company" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Reference_Company" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Reference_ContactInfo" class="form-label">Contact Info</label>
+                                    <input asp-for="Reference_ContactInfo" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Reference_ContactInfo" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phần Giải Thưởng -->
+                        <div class="timeline-card timeline-card-success card shadow-sm">
+                            <div class="card-body">
+                                <div class="h5 mb-1">Awards</div>
+                                <div class="mb-3">
+                                    <label asp-for="Award_AwardName" class="form-label">Award Name</label>
+                                    <input asp-for="Award_AwardName" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Award_AwardName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Award_Date" class="form-label">Date</label>
+                                    <input asp-for="Award_Date" class="form-control" placeholder="" />
+                                    <span asp-validation-for="Award_Date" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tool-section-top">
+                <ul class="nav" style="display:flex;">
+                        <li class="nav-item" style="padding: 2% 2%;"><a class="nav-link" asp-action="CreateCV" asp-controller="Template">SaveandDowload</a></li>
+                </ul>
+            </div>
+        </form>
+
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Trigger file input when clicking on the image
+        $("#imagePreview").on("click", function () {
+            $("#avatarUpload").click();
+        });
+
+        // Show the selected file name and preview the image
+        $("#avatarUpload").on("change", function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+
+            }
+
+            // Trigger the upload when file is selected
+            uploadImage(file);
+        });
+
+        // Function to upload image using AJAX
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append("Image", file);
+
+            $.ajax({
+                url: '/Template/UploadImage',  // Update with the actual controller and action
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+            });
+        }
+    });
+
+</script>
+

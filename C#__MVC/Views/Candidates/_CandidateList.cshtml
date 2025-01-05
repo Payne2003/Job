@@ -1,0 +1,114 @@
+﻿
+@model X.PagedList.IPagedList<dynamic>
+@foreach (var candidate in Model)
+{
+    <div class="tab_grid_prof">
+        <div class="col-sm-3 loc_1">
+            <img src="@Url.Content("~/images/" + candidate.Avatar)" alt="Avatar">
+        </div>
+        <div class="col-sm-9">
+            <div class="location_box1">
+                <h6>@candidate.UserName</h6>
+                <strong>CurentJob</strong>: <span class="m_2_prof">@(!string.IsNullOrEmpty(candidate.JobTitle) ? candidate.JobTitle : "No jobs applied yet")</span>
+                <div class="person-info">
+                    <ul>
+                        <li><span>Email</span>: @candidate.Email</li>
+                        <li><span>PhoneNumber</span>: @candidate.PhoneNumber</li>
+                        <li><a href="@Url.Action("DownloadCv", "Resume", new { fileName = candidate.Cv })"><span>Cv</span>: @candidate.Cv</a></li>
+                        <li><span>Experience</span>: @candidate.YearsSinceCreation years</li>
+                    </ul>
+                </div>
+                <div class="read">
+                    <!-- Button trigger modal -->
+                   
+                        <a href="mailto:@candidate.Email" class="btn btn-primary">Liên hệ</a>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+}
+
+
+
+<ul class="pagination paging w3-agileits-paging">
+    @if (Model.HasPreviousPage)
+    {
+        <li>
+            <a href="javascript:void(0);" class="page-link" data-page="@Model.PageNumber - 1">«</a>
+        </li>
+    }
+    else
+    {
+        <li class="disabled"><span aria-hidden="true">«</span></li>
+    }
+
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+        <li class="@(i == Model.PageNumber ? "active" : "")">
+            <a href="javascript:void(0);" class="page-link" data-page="@i">@i</a>
+        </li>
+    }
+
+    @if (Model.HasNextPage)
+    {
+        <li>
+            <a href="javascript:void(0);" class="page-link" data-page="@Model.PageNumber + 1">»</a>
+        </li>
+    }
+    else
+    {
+        <li class="disabled"><span aria-hidden="true">»</span></li>
+    }
+</ul>
+
+@* <script>
+    $(document).ready(function () {
+        // Khi modal mở, truyền các giá trị của ứng viên vào các input ẩn
+        $('#contactModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button kích hoạt modal
+            var candidateId = button.data('candidateid');
+            var candidateName = button.data('candidatename');
+
+            var modal = $(this);
+            modal.find('.modal-title').text('Contact ' + candidateName);
+            modal.find('#CandidateId').val(candidateId);
+        });
+
+        // Xử lý khi click vào nút "Send Message"
+        // Xử lý khi click vào nút "Send Message"
+        $('#sendEmailBtn').click(function () {
+            var candidateId = $('#CandidateId').val();
+            var subject = $('#Subject').val();
+            var message = $('#Message').val();
+
+            // Gửi AJAX POST request đến server để gửi email
+            $.ajax({
+                url: '@Url.Action("SendEmailToCandidate", "Recruiter")',
+                type: 'POST',
+                data: {
+                    CandidateId: candidateId,
+                    Subject: subject,
+                    Message: message
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Message sent successfully!");
+                        $('#contactModal').modal('hide');
+                    } else if (response.redirectUrl) {
+                        // Redirect to login page
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error sending message.");
+                }
+            });
+        });
+
+    });
+
+</script> *@

@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model LoginModel
+<div class="inner_page_agile">
+	<h3>Login</h3>
+	
+</div>
+<!--//banner -->
+<!--/w3_short-->
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls>
+			<li><a href="index.html">Home</a><span>|</span></li>
+			<li>Login</li>
+		</ul>
+	</div>
+</div>
+<div class="inner_content_info_agileits">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle three">LogIn to your Account </h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="signin-form">
+				<div  class="login-form-rec" >
+					<div asp-validation-summary="All" class="text-danger"></div>
+					<form asp-action="Login" method="post">
+						<div class="form-group">
+							<input type="Email" asp-for="Email"  placeholder="Email" require/>
+						
+						</div>
+
+						<div class="form-group">
+
+							<input type="password" asp-for="Password"  placeholder="Password" require/>
+						
+						</div>
+
+						<div class="tp">
+
+							<input type="submit" value="Login" />
+						</div>
+						
+					</form>
+					<div class="form-group text-center mt-3">
+						<a asp-action="ForgotPassword" class="btn btn-link">Forgot Password?</a>
+					</div>
+				</div>
+				<div class="login-social-grids">
+					<ul>
+						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-rss"></i></a></li>
+					</ul>
+				</div>
+				<p><a asp-controller="Auth" asp-action="RegisterCandidate"> Don't have an account?</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.btn-link {
+		margin-right: 500px;/* Điều chỉnh khoảng cách giữa nút Login và Quên mật khẩu */
+	}
+</style>

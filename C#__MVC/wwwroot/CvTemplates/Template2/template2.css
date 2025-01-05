@@ -1,0 +1,80 @@
+﻿/* styles.css */
+
+.cv-template { /* Thay đổi tên class chính để tránh xung đột */
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 20px; /* Thêm padding cho cv-template */
+}
+
+    .cv-template .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cv-template .profile-header {
+        display: flex;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eee;
+    }
+
+    .cv-template .profile-picture {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin-right: 20px;
+    }
+
+    .cv-template .profile-info h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .cv-template .profile-info p {
+        margin: 0;
+        color: #666;
+    }
+
+    .cv-template .contact-info {
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+
+        .cv-template .contact-info a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+    .cv-template .section {
+        margin-top: 20px;
+    }
+
+        .cv-template .section h2 {
+            font-size: 20px;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+    .cv-template .education, .cv-template .experience {
+        margin-bottom: 15px;
+    }
+
+        .cv-template .education p, .cv-template .experience p {
+            margin: 5px 0;
+        }
+
+        .cv-template .experience ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+            .cv-template .experience ul li {
+                list-style-type: disc;
+                margin-bottom: 5px;
+            }

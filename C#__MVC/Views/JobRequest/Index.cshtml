@@ -1,0 +1,343 @@
+﻿@using X.PagedList
+@model X.PagedList.IPagedList<Job>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="../../LayoutAdmin/assets/css/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<style>
+    .job_link {
+        display: flex;
+        justify-content: center; /* Căn giữa các thẻ a */
+        gap: 20px; /* Khoảng cách giữa các thẻ a */
+    }
+
+        .job_link a {
+            font-size: 24px; /* Kích thước của icon */
+            color: #000; /* Màu của biểu tượng, có thể thay đổi tùy ý */
+            text-decoration: none;
+        }
+</style>
+<div class="template-demo">
+    <a asp-action="Index" asp-controller="Jobmanager" type="button" class="btn btn-outline-success btn-fw">Job</a>
+    <a asp-action="Index"  type="button" class="btn btn-outline-danger btn-fw">Job Request</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Image)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().JobId)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Experience)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Company)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Quantity)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Location)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Salary)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Recruiter.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Category.CategoryId)</th>
+                    <th>@Html.DisplayName("Status")</th> 
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td onclick="showJobRequestDetails(@Html.DisplayFor(modelItem => item.JobId))">
+                            <img src="~/images/@item.Image" alt="Avatar" style="width: 50px; height: auto;" class="img-click" data-bs-toggle="modal" data-bs-target="#jobRequestModal" />
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.JobId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Experience)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Location.Province)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Salary)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Recruiter.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category.CategoryId)</td>
+                        <td>@(item.Status == false ? "Pending" : "Accepted")</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-fw" onclick="deleteJob(@item.JobId);">Reject</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div class="btn-group" role="group" aria-label="Basic example">
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+        <button type="button" class="btn btn-outline-secondary">
+            @Html.ActionLink(i.ToString(), "Index", new { page = i })
+        </button>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobModalLabel">JobRequest Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalImage" style="text-align: center; margin-bottom: 20px;">
+                </div>
+                <dl class="row">
+                    <dt class="col-sm-3">Title:</dt>
+                    <dd class="col-sm-9" id="modalTitle"></dd>
+
+                    <dt class="col-sm-3">Description:</dt>
+                    <dd class="col-sm-9" id="modalDescription"></dd>
+
+                    <dt class="col-sm-3">Required:</dt>
+                    <dd class="col-sm-9" id="modalRequired"></dd>
+
+                    <dt class="col-sm-3">Company:</dt>
+                    <dd class="col-sm-9" id="modalCompany"></dd>
+
+                    <dt class="col-sm-3">Quantity:</dt>
+                    <dd class="col-sm-9" id="modalQuantity"></dd>
+
+                    <dt class="col-sm-3">Location:</dt>
+                    <dd class="col-sm-9" id="modalLocation"></dd>
+
+                    <dt class="col-sm-3">Salary:</dt>
+                    <dd class="col-sm-9" id="modalSalary"></dd>
+
+                    <dt class="col-sm-3">Recruiter Email:</dt>
+                    <dd class="col-sm-9" id="modalRecruiterEmail"></dd>
+
+                    <dt class="col-sm-3">Category Name:</dt>
+                    <dd class="col-sm-9" id="modalCategoryName"></dd>
+                </dl>
+                <div><strong id="nameSkill"></strong></div>
+                <div id="modalSkills"></div> <!-- Phần hiển thị kỹ năng -->
+            </div>
+                <div class="job_link" id="modalLink"></div>
+            <div class="modal-footer">
+                <button id="modalAcceptButton" type="button" class="btn btn-success" data-id="" onclick="acceptJob(this)">Accept</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function showJobRequestDetails(id) {
+        $.ajax({
+            url: '/Jobmanager/GetJobDetails',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(id), // Đảm bảo gửi dữ liệu dưới dạng đối tượng JSON
+            success: function (job) {
+                // Cập nhật thông tin công việc trong modal
+                $('#modalImage').html(`<img src="/images/${job.image}" alt="Avatar" style="width: 150px; height: auto;" />`);
+                $('#modalTitle').text(job.title);
+                $('#modalDescription').text(job.description);
+                $('#modalRequired').text(job.experience);
+                $('#modalCompany').text(job.company);
+                $('#modalQuantity').text(job.quantity);
+                $('#modalLocation').text(job.location);
+                $('#modalSalary').text(job.salary);
+                $('#modalRecruiterEmail').text(job.recruiterEmail);
+                $('#modalCategoryName').text(job.categoryName);
+                // Hiển thị danh sách kỹ năng
+                    var skillsHtml = '';
+                    if (job.skills.length > 0) {
+                        $('#nameSkill').text(' (' + job.skills.length + ' skills)');
+                        skillsHtml += '<ul>'; // Bắt đầu danh sách
+                        job.skills.forEach(function (skill) {
+                            skillsHtml += '<li>' + skill.name + ': ' + skill.description + '</li>';
+                        });
+                        skillsHtml += '</ul>'; // Kết thúc danh sách
+                    } else {
+                        $('#nameSkill').text(' (No skills)');
+                    }
+                    $('#modalSkills').html(skillsHtml);
+                var linkHtml = '';
+                job.links.forEach(function (link) {
+                    var iconClass;
+                    var title;
+
+                    switch (link.name) {
+                        case 'Google Maps':
+                            iconClass = 'bi bi-geo-alt';
+                            title = 'View on Google Maps';
+                            break;
+                        case 'Facebook':
+                            iconClass = 'bi bi-facebook';
+                            title = 'View on Facebook';
+                            break;
+                        case 'YouTube':
+                            iconClass = 'bi bi-youtube';
+                            title = 'View on YouTube';
+                            break;
+                        case 'Instagram':
+                            iconClass = 'bi bi-instagram';
+                            title = 'View on Instagram';
+                            break;
+                        default:
+                            iconClass = 'bi bi-link-45deg';
+                            title = 'View link';
+                            break;
+                    }
+                    linkHtml += `<a href="${link.description}" class="${iconClass}" target="_blank" title="${title}"></a>`;
+                });
+
+                $('#modalLink').html(linkHtml);
+
+                // Cập nhật data-id cho nút Accept
+                $('#modalAcceptButton').attr('data-id', id);
+
+                // Hiển thị modal
+                $('#jobModal').modal('show');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+                alert('Failed to load job details.');
+            }
+        });
+    }
+
+    function confirmAction(message, yesCallback, noCallback) {
+        // Tạo hộp xác nhận
+        const confirmBox = document.createElement("div");
+        confirmBox.setAttribute("style", `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    border: 1px solid #ccc;
+                    padding: 20px;
+                    z-index: 1000;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    border-radius: 8px;
+                    width: 300px;
+                    text-align: center;
+                `);
+
+        // Tạo thông điệp
+        const messageNode = document.createElement("p");
+        messageNode.innerText = message;
+        confirmBox.appendChild(messageNode);
+
+        // Tạo nút "Yes"
+        const yesButton = document.createElement("button");
+        yesButton.innerText = "Yes";
+        yesButton.setAttribute("style", `
+                    margin-right: 10px;
+                    background-color: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 10px 15px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                `);
+        yesButton.onmouseover = function () {
+            yesButton.style.backgroundColor = "#218838";
+        };
+        yesButton.onmouseout = function () {
+            yesButton.style.backgroundColor = "#28a745";
+        };
+        yesButton.onclick = function () {
+            yesCallback();
+            document.body.removeChild(confirmBox);
+        };
+        confirmBox.appendChild(yesButton);
+
+        // Tạo nút "No"
+        const noButton = document.createElement("button");
+        noButton.innerText = "No";
+        noButton.setAttribute("style", `
+                    background-color: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 10px 15px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                `);
+        noButton.onmouseover = function () {
+            noButton.style.backgroundColor = "#c82333";
+        };
+        noButton.onmouseout = function () {
+            noButton.style.backgroundColor = "#dc3545";
+        };
+        noButton.onclick = function () {
+            noCallback();
+            document.body.removeChild(confirmBox);
+        };
+        confirmBox.appendChild(noButton);
+
+        // Thêm hộp xác nhận vào body
+        document.body.appendChild(confirmBox);
+    }
+
+    function deleteJob(id) {
+        confirmAction("Are you sure you want to reject this job?", function () {
+            // Gửi yêu cầu xóa đến controller
+            $.ajax({
+                url: '/JobRequest/Reject',
+                type: 'POST',
+                data: { id: id },
+                success: function (response) {
+                    if (response.success) {
+                        // Nếu xóa thành công, load lại trang
+                        location.reload();
+                    } else {
+                        // Nếu không xóa được, có thể hiển thị thông báo lỗi hoặc không làm gì
+                        console.log("Deletion failed.");
+                    }
+                },
+                error: function (xhr) {
+                    alert('Error rejecting job: ' + xhr.responseText);
+                }
+            });
+        }, function () {
+            console.log('Reject action canceled.');
+        });
+    }
+
+    function acceptJob(button) {
+        var jobId = $(button).attr('data-id'); // Lấy ID công việc từ nút
+
+        // Hiển thị xác nhận ngay trên trang
+        if (confirm("Are you sure you want to accept this job?")) {
+            // Nếu người dùng chọn OK, gửi yêu cầu AJAX đến server
+            $.ajax({
+                url: '/JobRequest/Accept',
+                type: 'POST',
+                data: { id: jobId },
+                success: function (response) {
+                    if (response.success) {
+                        // Nếu xóa thành công, load lại trang
+                        location.reload();
+                    } else {
+                        // Nếu không xóa được, có thể hiển thị thông báo lỗi hoặc không làm gì
+                        console.log("Deletion failed.");
+                    }
+                },
+                error: function (xhr) {
+                    alert('Error accepting job: ' + xhr.responseText);
+                }
+            });
+        } else {
+            console.log('User canceled the job acceptance.');
+        }
+    }
+</script>

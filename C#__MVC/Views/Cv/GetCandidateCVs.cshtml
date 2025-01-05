@@ -1,0 +1,42 @@
+﻿@model List<CV>
+
+<h2 style="padding-top: 10px;">Your Cvs</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cv in Model)
+            {
+                <tr>
+                    <td>@cv.Name</td>
+                    <td>
+                        <form asp-controller="Cv" asp-action="EditCV" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="@cv.ID" />
+                            <button type="submit" class="btn btn-warning">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                       
+                        <form asp-action="DeleteCV" method="post" onsubmit="return confirm('Are you sure you want to delete this CV?');">
+                            <input type="hidden" name="id" value="@cv.ID" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No CVs found for this candidate.</p>
+}
+

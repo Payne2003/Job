@@ -1,0 +1,297 @@
+﻿@{
+    ViewData["Title"] = "CreateJob";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .custom-form {
+        max-width: 100%;
+        margin: 2% auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 24px;
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Khoảng cách giữa các cột */
+    }
+
+    .form-column {
+        flex: 1;
+        min-width: 300px; /* Đảm bảo cột không nhỏ hơn 300px */
+        padding: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Khoảng cách giữa các trường nhập liệu */
+    }
+
+    .custom-button {
+        padding: 10px 20px;
+        background: #23B684;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px; /* Khoảng cách phía trên nút */
+        border-radius: 5px;
+    }
+
+        .custom-button:hover {
+            background: #1e9f61;
+        }
+
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.8em;
+    }
+
+    .image-container {
+        text-align: center;
+    }
+
+    .job-image {
+        max-width: 30%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .file-name-display {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    } 
+
+    #skillsContainer {
+        margin-bottom: 10px;
+    }
+
+    .skill-entry input{
+        margin: 10px 0; /* Cách đều trên và dưới */
+    }
+
+
+    #addSkillButton {
+        margin-top: 10px; /* Khoảng cách giữa danh sách kỹ năng và nút Add Skill */
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+</style>
+@model C___MVC.Dto.JobRequestDto
+<div class="container" style="width: 96%;">
+    <form asp-action="CreateJob" method="post" enctype="multipart/form-data" class="custom-form">
+        @* <div asp-validation-summary="All" class="text-danger"></div> *@
+
+        <!-- Tiêu đề -->
+        <h3 class="form-title">Post a New Job</h3>
+
+        <!-- Phần cột -->
+        <div class="form-row">
+            <!-- Cột 1 -->
+            <div class="form-column">
+                <div class="form-group">
+                    <label asp-for="Title" class="form-label">Job Title</label>
+                    <input asp-for="Title" class="input-field" placeholder="Enter the job title" />
+                    <span asp-validation-for="Title" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="form-label">Job Description</label>
+                    <textarea asp-for="Description" class="input-field" rows="4" placeholder="Describe the job role and responsibilities"></textarea>
+                    <span asp-validation-for="Description" class="error-message"></span>
+                </div><div class="form-group">
+                    <label asp-for="Experience" class="form-label">Job Experience</label>
+                    <textarea asp-for="Experience" class="input-field" rows="4" placeholder="Describe the job role and responsibilities"></textarea>
+                    <span asp-validation-for="Experience" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Company" class="form-label">Company</label>
+                    <input asp-for="Company" class="input-field" placeholder="Company name" />
+                    <span asp-validation-for="Company" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LocationId" class="form-label">Location</label>
+                    <select asp-for="LocationId" class="input-field" asp-items="ViewBag.Locations">
+                        <option value="" disabled selected>Select a location</option>
+                    </select>
+                    <span asp-validation-for="LocationId" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Quantity" class="form-label">Number of Openings</label>
+                    <input asp-for="Quantity" class="input-field" type="number" placeholder="Number of positions" min="1" />
+                    <span asp-validation-for="Quantity" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Salary" class="form-label">Salary (in USD)</label>
+                    <input asp-for="Salary" class="input-field" type="text" placeholder="Salary offer" />
+                    <span asp-validation-for="Salary" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" class="input-field" asp-items="ViewBag.Categories">
+                        <option value="" disabled selected>Select a category</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ExpiredAt" class="form-label">Expiration Date</label>
+                    <input asp-for="ExpiredAt" class="input-field" type="datetime-local" />
+                    <span asp-validation-for="ExpiredAt" class="error-message"></span>
+                </div>
+            </div>
+
+            <!-- Cột 2 -->
+            <div class="form-column">
+                <div class="image-container text-center">
+                    <img id="imagePreview" src="~/images/loc6.jpg" class="job-image">
+                </div>
+
+                <div class="form-group mb-4">
+                    <input asp-for="Image" type="file" class="file-upload-default" id="avatarUpload" style="display: none;" onchange="uploadImage();" />
+                    <button class="custom-button" type="button" onclick="document.getElementById('avatarUpload').click();">Upload Image</button>
+                    <input type="text" id="fileNameInput" class="file-name-display mt-2" disabled="" placeholder="No file chosen">
+                </div>
+
+                    <!-- Phần nhập kỹ năng -->
+                <div class="form-group">
+                    <label for="skills">Skills</label>
+                    <div id="skillsContainer">
+                        <div class="skill-entry">
+                            <input type="text" class="form-control mb-2" name="Skills[0].Name" placeholder="Enter skill name" />
+                            <input type="text" class="form-control mb-2" name="Skills[0].Description" placeholder="Enter skill description" />
+                        </div>
+                    </div>
+                    <button type="button" class="custom-button" id="addSkillButton">Add Skill</button>
+                </div>
+
+                <!-- Phần nhập liên kết có sẵn -->
+                <div id="link-container">
+                <div class="link-entry">
+                    <div class="form-group">
+                        <label for="link-name-0">Link Name</label>
+                        <select name="Links[0].Name" id="link-name-0" class="form-control">
+                            <option value="">Select Link Type</option>
+                            <option value="Google Maps">Google Maps</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Instagram">Instagram</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="link-description-0">Link Description</label>
+                        <input type="text" name="Links[0].Description" id="link-description-0" placeholder="Link Description" class="form-control" />
+                    </div>
+                </div>
+            </div>
+                <button type="button" id="add-link" class="custom-button">Add Link</button>
+        </div>
+</div>
+        <!-- Nút submit -->
+        <div class="text-center">
+            <button type="submit" class="custom-button">Post Job</button>
+        </div>
+    </form>
+</div>
+
+        
+
+<script type="text/javascript">
+    function uploadImage() {
+        var file = document.getElementById('avatarUpload').files[0];
+        var formData = new FormData();
+        formData.append("avatar", file);
+
+        $.ajax({
+            url: '/Admin/UploadAvatar',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                var preview = document.getElementById('imagePreview');
+                var fileNameInput = document.getElementById('fileNameInput');
+
+                // Lấy tên file mà không có phần mở rộng
+                var fileNameWithoutExtension = response.fileName.split('.').slice(0, -1).join('.');
+
+                preview.src = '/images/' + response.fileName; // Hiển thị ảnh
+                preview.style.display = 'block'; // Hiển thị ảnh
+                fileNameInput.value = fileNameWithoutExtension; // Cập nhật tên file vào ô input, không có phần mở rộng
+            },
+            error: function () {
+                alert("File upload failed.");
+            }
+        });
+    }
+</script>
+
+<script>
+    // Add more link inputs dynamically
+    let linkIndex = 1;
+    document.getElementById('add-link').addEventListener('click', function () {
+        const linkContainer = document.getElementById('link-container');
+        const newLinkEntry = document.createElement('div');
+        newLinkEntry.classList.add('link-entry');
+        newLinkEntry.innerHTML = `
+            <div class="form-group">
+                <label for="link-name-${linkIndex}">Link Name</label>
+                <select name="Links[${linkIndex}].name" id="link-name-${linkIndex}" class="form-control">
+                    <option value="">Select Link Type</option>
+                    <option value="Google Maps">Google Maps</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="YouTube">YouTube</option>
+                    <option value="Instagram">Instagram</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="link-description-${linkIndex}">Link Description</label>
+                <input type="text" name="Links[${linkIndex}].description" id="link-description-${linkIndex}" placeholder="Link Description" class="form-control" />
+            </div>
+        `;
+        linkContainer.appendChild(newLinkEntry);
+        linkIndex++;
+    });
+
+</script>
+<script>
+     // Add more skill inputs dynamically
+    let skillIndex = 1;
+    document.getElementById('addSkillButton').addEventListener('click', function () {
+        const skillContainer = document.getElementById('skillsContainer');
+        const newSkillEntry = document.createElement('div');
+        newSkillEntry.classList.add('skill-entry');
+        newSkillEntry.innerHTML = `
+            <input type="text" class="form-control mb-2" name="Skills[${skillIndex}].Name" placeholder="Enter skill name" />
+            <input type="text" class="form-control mb-2" name="Skills[${skillIndex}].Description" placeholder="Enter skill description" />
+        `;
+        skillContainer.appendChild(newSkillEntry);
+        skillIndex++;
+    });
+</script>

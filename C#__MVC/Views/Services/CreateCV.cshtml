@@ -1,0 +1,454 @@
+﻿@{
+    ViewData["Title"] = "CreateCV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/css/site.css" rel="stylesheet" type="text/css" media="all">
+<style>
+    /* Header chứa thanh công cụ */
+    .header-create {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        display: flex;
+        position: fixed;
+        z-index: 100;
+        overflow-x: auto; /* Thêm thanh cuộn ngang */
+    }
+
+    /* Đảm bảo khoảng cách cho phần tạo CV */
+    .create-cv {
+        margin-top: 42px; /* Cách từ trên xuống 80px */
+    }
+
+    .cv-preview {
+        background-color: #fff;
+        padding: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .form-container {
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .btn-submit {
+        width: 100%;
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px;
+        color: white;
+        border: none;
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .add-more-btn {
+        margin-top: 10px;
+    }
+    .tool-section-top{
+        display: inline-flex;
+    }
+    /* CSS cho tool-section-bottom */
+    .tool-section-bottom {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ trên */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ dưới */
+        padding: 10px 0;
+    }
+
+        /* CSS cho các nút và phần tử trong tool-section-bottom */
+        .tool-section-bottom .tool-item {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+        }
+
+            .tool-section-bottom .tool-item:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                height: 70%; /* Chiều cao của gạch thẳng */
+                width: 1px;
+                background-color: rgba(0, 0, 0, 0.1); /* Gạch thẳng mờ giữa các mục */
+            }
+
+        /* Tạo khoảng cách giữa các chức năng và đường gạch */
+        .tool-section-bottom label,
+        .tool-section-bottom select,
+        .tool-section-bottom input {
+            margin: 0 10px;
+        }
+
+    .tool-section label {
+        margin-right: 5px;
+    }
+
+    .tool-input {
+        margin-right: 10px;
+        width: auto;
+    }
+
+    /* Đảm bảo CSS cho nút và input trong tool section */
+    .tool-item {
+        margin-left: 10px;
+    }
+
+    .personal-info {
+        display: flex; /* Sử dụng flexbox để sắp xếp ảnh và thông tin */
+    }
+
+    .avatar-container {
+        margin-right: 20px; /* Khoảng cách giữa ảnh và thông tin */
+        display: flex;
+        flex-direction: column; /* Đặt các phần tử theo chiều dọc */
+        align-items: center; /* Căn giữa ảnh */
+    }
+
+        .avatar-container img {
+            cursor: pointer; /* Thay đổi con trỏ khi di chuột qua ảnh */
+        }
+
+    .add-guideline {
+        margin-top: 15px;
+    }
+
+    .guideline-list {
+        list-style: none; /* Bỏ dấu chấm trước các mục */
+        padding: 0; /* Xóa padding */
+    }
+
+        .guideline-list li {
+            background: #f9f9f9; /* Màu nền cho mỗi mục */
+            border: 1px solid #ddd; /* Đường viền cho mỗi mục */
+            border-radius: 5px; /* Bo góc */
+            padding: 10px; /* Padding bên trong */
+            margin-bottom: 10px; /* Khoảng cách giữa các mục */
+            display: flex; /* Để biểu tượng và văn bản nằm ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+
+            .guideline-list li i {
+                margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+                color: #007bff; /* Màu biểu tượng */
+                font-size: 20px; /* Kích thước biểu tượng */
+            }
+
+            .guideline-list li:hover {
+                background: #e9ecef; /* Màu nền khi di chuột */
+                transition: background 0.3s; /* Hiệu ứng chuyển màu mượt mà */
+            }
+
+    .btn-primary {
+        margin-top: 15px; /* Khoảng cách trên nút thêm mục mới */
+    }
+
+
+</style>
+
+
+<div class="create-cv">
+    <div class="header-create">
+        <div class="row" style="
+             width: 100%;">
+            <div class="col-md-12" style="display: inline-grid;">
+                <div class="tool-section-top">
+                    <div class="input-group" style="padding: 0% 80% 0% 0%;">
+                        <input type="text" class="form-control" placeholder="Nhập tên CV" value="CV của tôi">
+                    </div>
+                    <ul class="nav" style="display:flex;">
+                        <li class="nav-item" style="padding: 0% 3%;"><a class="nav-link">Save</a></li>
+                        <li class="divider"></li>
+                        <li class="nav-item" style="padding: 0% 3%;"><a class="nav-link" href="#">SaveandDowload</a></li>
+                    </ul>
+                </div>
+                <div class="tool-section-bottom">
+                    <label for="languageSelector">Ngôn ngữ:</label>
+                    <button type="button" class="btn btn-light tool-item" onclick="changeLanguage('vi')">
+                        <i class="fas fa-flag" style="color: #da251d; width: 20px; height: 20px;"></i> <!-- Vietnam Flag -->
+                    </button>
+                    <button type="button" class="btn btn-light tool-item" onclick="changeLanguage('en')">
+                        <i class="fas fa-flag-usa" style="width: 20px; height: 20px;"></i> <!-- English Flag -->
+                    </button>
+                    <label for="fontSelector">Phông chữ: </label>
+                    <select id="fontSelector" class="tool-input" onchange="changeFont()">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Open Sans', sans-serif">Open Sans</option>
+                        <option value="'Lato', sans-serif">Lato</option>
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                        <option value="'Raleway', sans-serif">Raleway</option>
+                        <option value="'Poppins', sans-serif">Poppins</option>
+                        <option value="'Merriweather', serif">Merriweather</option>
+                        <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                        <option value="'Nunito', sans-serif">Nunito</option>
+                        <option value="'Droid Sans', sans-serif">Droid Sans</option>
+                        <option value="'Oswald', sans-serif">Oswald</option>
+                        <option value="'Playfair Display', serif">Playfair Display</option>
+                    </select>
+                    <label for="fontSize">Cỡ chữ: </label>
+                    <input type="number" id="fontSize" class="tool-input" value="14" onchange="changeFontSize()">
+                    <label for="lineHeight">Khoảng cách dòng: </label>
+                    <input type="number" id="lineHeight" class="tool-input" value="1.5" step="0.1" onchange="changeLineHeight()">
+                    <label for="bgColor">Màu chủ đề: </label>
+                    <input type="color" id="bgColor" class="tool-input" value="#ffffff" onchange="changeBgColor()">
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="container" style="padding-top: 70px;">
+                <div class="inner_sec_grids_info_w3ls">
+                    <div class="col-md-8 job_info_left">
+                        <div class="but_list">
+                            <div class="cv-preview" id="cvPreview">
+                                <h2 class="form-header">Tạo CV của bạn</h2>
+                                <form action="#" method="post">
+                                    <div class="form-container">
+                                        <div class="section-title">Thông Tin Cá Nhân</div>
+                                        <div class="personal-info">
+                                            <div class="avatar-container">
+                                                <label for="profilePicture">Ảnh đại diện</label>
+                                                <input type="file" id="profilePicture" class="form-control" style="display: none;">
+                                                <img id="profileImage" src="#" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;" />
+                                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('profilePicture').click();">Chọn Ảnh</button>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fullName">Họ và Tên</label>
+                                                <input type="text" id="fullName" class="form-control" placeholder="Nhập họ và tên">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" id="email" class="form-control" placeholder="Nhập email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone">Số Điện Thoại</label>
+                                                <input type="text" id="phone" class="form-control" placeholder="Nhập số điện thoại">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Education -->
+                                    <div class="form-container">
+                                        <div class="section-title">Học Vấn</div>
+                                        <div class="form-group">
+                                            <label for="school">Trường / Đại học</label>
+                                            <input type="text" id="school" class="form-control" placeholder="Nhập tên trường">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="degree">Bằng cấp</label>
+                                            <input type="text" id="degree" class="form-control" placeholder="Nhập bằng cấp">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="educationStart">Ngày Bắt Đầu</label>
+                                            <input type="date" id="educationStart" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="educationEnd">Ngày Kết Thúc</label>
+                                            <input type="date" id="educationEnd" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Work Experience -->
+                                    <div class="form-container">
+                                        <div class="section-title">Kinh Nghiệm Làm Việc</div>
+                                        <div id="experienceSection">
+                                            <div class="form-group">
+                                                <label for="company">Tên Công Ty</label>
+                                                <input type="text" id="company" class="form-control" placeholder="Nhập tên công ty">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="jobTitle">Vị Trí Công Việc</label>
+                                                <input type="text" id="jobTitle" class="form-control" placeholder="Nhập vị trí">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="jobStart">Ngày Bắt Đầu</label>
+                                                <input type="date" id="jobStart" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="jobEnd">Ngày Kết Thúc</label>
+                                                <input type="date" id="jobEnd" class="form-control">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary add-more-btn" id="addExperienceBtn">Thêm Kinh Nghiệm</button>
+                                    </div>
+
+                                    <!-- Skills -->
+                                    <div class="form-container">
+                                        <div class="section-title">Kỹ Năng</div>
+                                        <div id="skillsSection">
+                                            <div class="form-group">
+                                                <label for="skill">Kỹ Năng</label>
+                                                <input type="text" id="skill" class="form-control" placeholder="Nhập kỹ năng">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary add-more-btn" id="addSkillBtn">Thêm Kỹ Năng</button>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-submit">Hoàn Thành CV</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 job_info_right">
+                    <p>Làm theo các bước dưới đây để tạo một CV chuyên nghiệp:</p>
+                    <ul class="guideline-list">
+                        <li><i class="fa fa-user"></i> Điền thông tin cá nhân</li>
+                        <li><i class="fa fa-briefcase"></i> Thêm kinh nghiệm làm việc và học vấn</li>
+                        <li><i class="fa fa-star"></i> Thêm các kỹ năng và chứng chỉ</li>
+                        <li><i class="fa fa-download"></i> Lưu và tải xuống CV</li>
+                    </ul>
+                    <button type="button" class="btn btn-primary" draggable="true" ondragstart="drag(event)" onclick="addGuideline()">Thêm Mục Mới</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+</div>
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <script src="~/js/bootstrap.js"></script>
+    <script>
+    function addGuideline() {
+        // Tạo một mục mới để thêm vào CV
+        var newSection = document.createElement('div');
+        newSection.className = 'form-group'; // Định nghĩa lớp cho mục mới
+        newSection.innerHTML = `<label>Nội dung mới</label><input type="text" class="form-control" placeholder="Nhập nội dung">`;
+
+        // Thêm mục mới vào cuối CV
+        document.getElementById('cvPreview').appendChild(newSection);
+    }
+
+    // Kéo-thả
+    document.getElementById('cvPreview').addEventListener('dragover', function (e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định
+    });
+
+    document.getElementById('cvPreview').addEventListener('drop', function (e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định
+        var droppedText = e.dataTransfer.getData('text/plain');
+        var newSection = document.createElement('div');
+        newSection.className = 'form-group'; // Định nghĩa lớp cho mục mới
+        newSection.innerHTML = `<label>Nội dung mới</label><input type="text" class="form-control" placeholder="Nhập ${droppedText}">`;
+        document.getElementById('cvPreview').appendChild(newSection); // Thêm vào CV
+    });
+
+        // Thay đổi phông chữ
+        function changeFont() {
+            var font = document.getElementById('fontSelector').value;
+            document.getElementById('cvPreview').style.fontFamily = font;
+        }
+
+        // Thay đổi cỡ chữ
+        function changeFontSize() {
+            var fontSize = document.getElementById('fontSize').value + 'px';
+            document.getElementById('cvPreview').style.fontSize = fontSize;
+        }
+        // Thay đổi khoảng cách dòng
+        function changeLineHeight() {
+            var lineHeight = document.getElementById('lineHeight').value;
+            document.getElementById('cvPreview').style.lineHeight = lineHeight;
+        }
+        // Thay đổi màu nền
+        function changeBgColor() {
+            var bgColor = document.getElementById('bgColor').value;
+            document.getElementById('cvPreview').style.backgroundColor = bgColor;
+        }
+
+        // Lưu và tải xuống CV (chỉ là mô phỏng)
+        function saveCV() {
+            alert("CV của bạn đã được lưu.");
+        }
+
+        function downloadCV() {
+            alert("CV của bạn đã được tải xuống.");
+        }
+
+        // Thêm trường kinh nghiệm
+        $('#addExperienceBtn').click(function () {
+            var experienceHtml = `
+                        <div class="form-group">
+                            <label for="company">Tên Công Ty</label>
+                            <input type="text" class="form-control" placeholder="Nhập tên công ty">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobTitle">Vị Trí Công Việc</label>
+                            <input type="text" class="form-control" placeholder="Nhập vị trí">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobStart">Ngày Bắt Đầu</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobEnd">Ngày Kết Thúc</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    `;
+            $('#experienceSection').append(experienceHtml);
+        });
+
+        // Thêm trường kỹ năng
+        $('#addSkillBtn').click(function () {
+            var skillHtml = `
+                        <div class="form-group">
+                            <label for="skill">Kỹ Năng</label>
+                            <input type="text" class="form-control" placeholder="Nhập kỹ năng">
+                        </div>
+                    `;
+            $('#skillsSection').append(skillHtml);
+        });
+    // Hàm đổi ngôn ngữ
+    function changeLanguage(language) {
+        if (language === 'vi') {
+            // Thay đổi nội dung sang tiếng Việt
+            document.querySelector('.form-header').textContent = "Tạo CV của bạn";
+            // Thay đổi các nhãn khác nếu cần
+            document.querySelector('label[for="fullName"]').textContent = "Họ và Tên";
+            document.querySelector('label[for="email"]').textContent = "Email";
+            document.querySelector('label[for="phone"]').textContent = "Số Điện Thoại";
+            document.querySelector('label[for="school"]').textContent = "Trường / Đại học";
+            document.querySelector('label[for="degree"]').textContent = "Bằng cấp";
+            document.querySelector('label[for="educationStart"]').textContent = "Ngày Bắt Đầu";
+            document.querySelector('label[for="educationEnd"]').textContent = "Ngày Kết Thúc";
+            document.querySelector('label[for="company"]').textContent = "Tên Công Ty";
+            document.querySelector('label[for="jobTitle"]').textContent = "Vị Trí Công Việc";
+            document.querySelector('label[for="jobStart"]').textContent = "Ngày Bắt Đầu";
+            document.querySelector('label[for="jobEnd"]').textContent = "Ngày Kết Thúc";
+            document.querySelector('.btn-submit').textContent = "Hoàn Thành CV";
+        } else if (language === 'en') {
+            // Thay đổi nội dung sang tiếng Anh
+            document.querySelector('.form-header').textContent = "Create Your CV";
+            // Thay đổi các nhãn khác nếu cần
+            document.querySelector('label[for="fullName"]').textContent = "Full Name";
+            document.querySelector('label[for="email"]').textContent = "Email";
+            document.querySelector('label[for="phone"]').textContent = "Phone Number";
+            document.querySelector('label[for="school"]').textContent = "School / University";
+            document.querySelector('label[for="degree"]').textContent = "Degree";
+            document.querySelector('label[for="educationStart"]').textContent = "Start Date";
+            document.querySelector('label[for="educationEnd"]').textContent = "End Date";
+            document.querySelector('label[for="company"]').textContent = "Company Name";
+            document.querySelector('label[for="jobTitle"]').textContent = "Job Title";
+            document.querySelector('label[for="jobStart"]').textContent = "Start Date";
+            document.querySelector('label[for="jobEnd"]').textContent = "End Date";
+            document.querySelector('.btn-submit').textContent = "Complete CV";
+        }
+    }
+    document.getElementById('profilePicture').addEventListener('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('profileImage').src = e.target.result; // Cập nhật ảnh
+        }
+        reader.readAsDataURL(this.files[0]); // Đọc ảnh
+    });
+
+    </script>

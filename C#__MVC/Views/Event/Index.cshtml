@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="inner_page_agile">
+	<h3>Events</h3>
+
+
+</div>
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls="">
+			<li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+			<li>Events</li>
+		</ul>
+	</div>
+</div>
+<div class="inner_content_info_agileits">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">Our Events</h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="col-md-4 blog-grid one">
+				<a href="single.html"><img src="images/e6.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Oct 12,2024</h5>
+					<h4><a href="https://www.irsapei.ca/vi/employment-programs-and-workshops">IRSA Association</a></h4>
+					<p>IRSA holds seminars for clients who to work in Canada.</p>
+
+				</div>
+			</div>
+			<div class="col-md-4 blog-grid one">
+				<a href="single.html"><img src="images/e5.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Oct 26,2024</h5>
+					<h4><a href="https://phenikaa-uni.edu.vn/vi/post/tin-tuc/hoi-thao-dinh-huong-nghe-nghiep-va-chia-se-ky-nang-cho-sinh-vien">Phenikaa University</a></h4>
+					<p>Career orientation and skill sharing workshop for students.</p>
+				</div>
+			</div>
+			<div class="col-md-4 blog-grid one lost">
+				<a href="single.html"><img src="images/e4.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Nov 06,2024</h5>
+					<h4><a href="https://iigvietnam.com/hoi-thao-toeic-for-career-giai-phap-dot-pha-ve-viec-lam-cho-sinh-vien/">IIG VietNam</a></h4>
+					<p>TOEIC FOR CAREER – Breakthrough employment solutions for students.</p>
+				</div>
+			</div>
+			<div class="col-md-4 blog-grid">
+				<a href="single.html"><img src="images/e1.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Oct 12,2024</h5>
+					<h4><a href="https://vieclam.ou.edu.vn/ban-tin/to-chuc-hoi-thao-nghe-nghiep-gioi-thieu-va-tuyen-dung-cac-vi-tri-cap-trung-va-lam-viec-cho-cac-to-chuc-co-quan-va-doanh-nghiep-nuoc-ngoai-tai-tp-hcm.35a525a4/vi">Ho Chi Minh City Open University</a></h4>
+					<p>Organizing Career Seminars: Introducing and recruiting mid-level positions and working for foreign organizations, agencies and enterprises in Ho Chi Minh City.</p>
+
+				</div>
+			</div>
+			<div class="col-md-4 blog-grid">
+				<a href="single.html"><img src="images/e2.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Oct 26,2024</h5>
+					<h4><a href="https://www.int-students-hiroshima.jp/vn/work/preparation/seminar.html">Hiroshima Study Abroad Portal</a></h4>
+					<p>Be shown information that, if known, would be useful in preparing for a job search such as how to write a cover letter, how to research companies, industries.</p>
+				</div>
+			</div>
+			<div class="col-md-4 blog-grid lost">
+				<a href="single.html"><img src="images/e3.jpg" alt=""></a>
+				<div class="events_info">
+					<h5>Nov 06,2024</h5>
+					<h4><a href="https://cpa.haui.edu.vn/vn/thong-bao/thong-bao-chuong-trinh-hoi-thao-viec-lam-huong-nghiep-cua-cong-ty-sekisho-viet-nam-voi-chu-de-van-hoa-doanh-nghiep-va-nhung-dieu-can-chu-y-khi-ung-tuyen-doanh-nghiep-nhat-ban/4830">Hanoi University of Industry</a></h4>
+					<p>Announcement of the job and career seminar program of Sekisho Vietnam Company with the topic: Corporate culture and things to note when applying for a job at a Japanese company.</p>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+
+		</div>
+
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).on('click', '.nav-item', function (e) {
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response);
+				}
+			});
+		});
+
+	</script>
+}
+<style>
+	.blog-grid {
+		transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà */
+	}
+
+		.blog-grid:hover {
+			transform: translateY(-10px); /* Di chuyển lên trên 10px */
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Tạo bóng nổi */
+		}
+
+</style>

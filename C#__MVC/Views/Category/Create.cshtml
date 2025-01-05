@@ -1,0 +1,75 @@
+﻿@model C___MVC.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="template-demo">
+                <button asp-action="Create" type="submit" class="btn btn-outline-success btn-fw">Submit</button>
+                <a asp-action="Index" type="button" class="btn btn-outline-danger btn-fw">Danger</a>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .action-buttons {
+        display: flex;
+    }
+
+    .action-form a {
+        justify-content: right; /* Đặt các nút ở hai bên */
+    }
+    /* Điều chỉnh để thẻ <a> hoạt động như nút */
+    .button {
+        display: inline-block; /* Đảm bảo thẻ <a> hiển thị như một khối inline */
+        padding: 0.5em 1em; /* Giảm kích thước padding */
+        font-size: 1.2em; /* Giảm kích thước chữ */
+        text-align: center; /* Căn giữa văn bản */
+        text-decoration: none; /* Loại bỏ gạch chân mặc định của thẻ <a> */
+        color: inherit; /* Giữ màu sắc của thẻ <a> */
+        border: 0px;
+        transition: all 0.3s cubic-bezier(0, 1.22, 0.67, 1.17);
+        border-radius: 0.5em; /* Điều chỉnh border-radius để phù hợp với kích thước nhỏ */
+        position: relative;
+        transform-style: preserve-3d;
+        box-shadow: 0.5em 0.5em 1em 0 rgba(0, 0, 0, 0), 0 -3px 0 0 rgba(0, 0, 0, 0.15) inset;
+        transform: scale(var(--s, 1)) rotateX(calc(((var(--y) - 50) * -1) * 0.25deg)) rotateY(calc(((var(--x) - 50)) * 0.25deg)) translateZ(var(--z, 0.1em));
+    }
+
+        .button::before, .button::after {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            display: block;
+            content: "";
+            transform: translate(-50%, -50%);
+        }
+
+        .button::after {
+            width: calc(100% + 2em);
+            height: calc(100% + 2em);
+        }
+
+        .button::before {
+            background-image: linear-gradient(to right bottom, transparent 25%, rgba(255, 255, 255, 0.25), transparent 75%);
+            background-size: 200% 200%;
+            background-position: calc(var(--x) * 1%) calc(var(--y) * 1%);
+            border-radius: inherit;
+            transition: all 0.3s cubic-bezier(0, 1.22, 0.67, 1.17);
+        }
+</style>
+
+
+

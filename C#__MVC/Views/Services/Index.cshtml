@@ -1,0 +1,134 @@
+﻿													
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="inner_page_agile">
+	<h3>Services</h3>
+	
+
+</div>
+<!--//banner -->
+<!--/w3_short-->
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls>
+			<li><a href="index.html">Home</a><span>|</span></li>
+			<li>Services</li>
+		</ul>
+	</div>
+</div>
+<!--//w3_short-->
+
+<div class="banner-bottom">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">About Us</h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="col-md-6 banner_bottom_left">
+				<h4>Employment opportunities for <span>Professionals</span></h4>
+				<p>
+					Pellentesque convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla viverra pharetra sem, eget
+					pulvinar neque pharetra ac.
+				</p>
+				<p>
+					Lorem Ipsum convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla viverra pharetra sem, eget
+					pulvinar neque pharetra ac.
+				</p>
+				<ul class="some_agile_facts">
+					<li><span class="fa fa-briefcase" aria-hidden="true"></span><label>80</label> Corporate Programs</li>
+					<li><span class="fa fa-graduation-cap" aria-hidden="true"></span><label>49</label> Training Courses</li>
+					<li><span class="fa fa-user" aria-hidden="true"></span><label>88</label> Strategic Partners</li>
+					<li><span class="fa fa-line-chart" aria-hidden="true"></span><label>436</label> Companies We Helped</li>
+				</ul>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="col-md-6 banner_bottom_right">
+				<div class="agileits_w3layouts_banner_bottom_grid">
+					<img src="/imgFinal/anhhr_timviec.png" alt=" " class="img-responsive" style="height:contain;height: 450px;">
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+
+	</div>
+</div>
+
+<div class="team_work_agile">
+	<h4>Whether we play a large or small role, by working together we achieve our objectives.</h4>
+	<!-- services -->
+	<div class="services" id="services">
+		<div class="container">
+			<div class="tittle_head_w3ls">
+				@* <h3 class="tittle">Selection Process</h3> *@
+			</div>
+			<div class="inner_sec_grids_info_w3ls">
+				<div class="col-md-3 services-left">
+					<div class="services-left-top">
+
+						<h5>Do what you love, and you'll never work a day in your life.</h5>
+
+					</div>
+					<div class="services-left-top services-left-top1">
+
+						<h5>Success is not the key to happiness. Happiness is the key to success.</h5>
+
+					</div>
+				</div>
+				<div class="col-md-6 services-middle">
+					<div class="services-middle-img">
+						<img src="images/process.jpg" alt="" />
+					</div>
+					<div class="services-middle-grids">
+						<div class="col-md-6 services-middle-left">
+							<div class="services-left-top">
+
+								<h5>The only way to do great work is to love what you do</h5>
+
+							</div>
+						</div>
+						<div class="col-md-6 services-middle-left">
+							<div class="services-left-top">
+
+								<h5>Hard work beats talent when talent doesn’t work hard.</h5>
+
+							</div>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<div class="col-md-3 services-left">
+					<div class="services-left-top">
+
+						<h5>Focus on being productive instead of being busy.</h5>
+
+					</div>
+					<div class="services-left-top services-left-top1">
+
+						<h5>Be a lifelong learner, and the work will always inspire you.</h5>
+
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //services -->
+@section Scripts {
+	<script>
+		$(document).on('click', '.nav-item', function (e) {
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response);
+				}
+			});
+		});
+
+	</script>
+}

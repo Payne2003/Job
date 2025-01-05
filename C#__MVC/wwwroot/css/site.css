@@ -1,0 +1,82 @@
+﻿
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+.avatar_img {
+    width: 45px; /* Đặt chiều rộng của avatar (điều chỉnh theo mong muốn) */
+    height: 45px; /* Đặt chiều cao của avatar */
+    border-radius: 50%; /* Tạo hình tròn cho avatar */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+
+/* Ẩn danh sách thẻ <li> ban đầu */
+/* Ẩn danh sách thẻ <li> ban đầu */
+.profile {
+    display: none;
+    position: absolute; /* Đặt thành phần xuất hiện ở vị trí cố định */
+    background-color: white;
+    border: 2px solid #19601e;
+    z-index: 1000; /* Đảm bảo danh sách hiển thị lên trên */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: black;
+    width: 150px;
+    border-radius: 5px;
+}
+
+    /* Đảm bảo mỗi mục trong danh sách có khoảng cách đều */
+    .profile li {
+        padding: 10px 15px; /* Thêm khoảng cách trên và dưới là 10px, bên trái và bên phải là 15px */
+        border-bottom: 1px solid #ddd; /* Thêm đường phân cách giữa các mục */
+    }
+
+        .profile li:last-child {
+            border-bottom: none; /* Loại bỏ đường phân cách ở mục cuối cùng */
+        }
+
+        .profile li a {
+            font-size: 18px;
+            color: black; /* Đặt màu chữ liên kết thành đen và dùng !important để ghi đè các thuộc tính khác */
+            text-decoration: none !important;
+            ; /* Xóa gạch chân nếu có */
+            display: block; /* Đảm bảo liên kết chiếm toàn bộ khoảng cách của mục */
+        }
+
+            .profile li a:hover {
+                color: #00c056;
+                text-decoration: underline; /* Thêm gạch chân khi hover */
+            }
+.validation-summary-valid ul,
+.validation-summary-errors ul {
+    list-style-type: none; /* Loại bỏ dấu chấm */
+    padding-left: 0; /* Loại bỏ thụt lề của danh sách */
+}
+@media (max-width: 768px) {
+    .header-create {
+        flex-direction: column; /* Đổi chiều từ ngang sang dọc */
+        align-items: flex-start; /* Căn lề trái cho các phần tử */
+        font-size: 14px; /* Giảm kích thước phông chữ trên thiết bị nhỏ hơn */
+    }
+
+    .tool-section {
+        margin-right: 0; /* Gỡ bỏ margin phải */
+        margin-bottom: 10px; /* Thêm khoảng cách giữa các tool section */
+    }
+}
+
+@media (max-width: 576px) {
+    .header-create {
+        font-size: 12px; /* Giảm kích thước phông chữ trên thiết bị nhỏ nhất */
+    }
+
+    .tool-section {
+        flex-direction: column; /* Đặt các phần tử trong tool-section xuống dòng */
+        align-items: flex-start; /* Căn trái cho các phần tử */
+    }
+
+    .tool-input {
+        margin-bottom: 10px; /* Thêm khoảng cách dưới các input */
+    }
+}

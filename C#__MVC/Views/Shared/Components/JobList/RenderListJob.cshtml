@@ -1,0 +1,5 @@
+﻿@model IEnumerable<Job>
+@foreach (var job in Model)
+{
+	<option value="@job.Title">@job.Title</option>
+}

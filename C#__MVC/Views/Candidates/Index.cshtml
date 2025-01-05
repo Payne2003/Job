@@ -1,0 +1,119 @@
+﻿@using X.PagedList.Extensions
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model X.PagedList.IPagedList<dynamic>
+
+<div class="inner_page_agile">
+    <h3>Professionals</h3>
+ 
+</div>
+
+<div class="services-breadcrumb_w3layouts">
+    <div class="inner_breadcrumb">
+        <ul class="short_w3ls">
+            <li><a href="index.html">Home</a><span>|</span></li>
+            <li>Professionals</li>
+        </ul>
+    </div>
+</div>
+
+<div class="inner_content_info_agileits">
+    <div class="container">
+        <div class="tittle_head_w3ls">
+            <h3 class="tittle">Candidates </h3>
+        </div>
+        <div class="inner_sec_grids_info_w3ls">
+            <div id="searchJob" class="col-md-8 job_info_left">
+                @await Html.PartialAsync("_CandidateList", Model)
+            </div>
+
+            <div class="col-md-4 job_info_right" style="margin-top: 3%;">
+                <div class="widget_search">
+                    <h5 class="widget-title">Search</h5>
+                    <div class="widget-content">
+                        <span>I'm looking for a ...</span>
+                        <select id="jobTitle" class="form-control jb_1">
+                            @await Component.InvokeAsync("JobList")
+                        </select>
+                        <input id="searchButton" type="submit" value="Search">
+                    </div>
+                </div>
+
+            @*     <div class="col_3 permit">
+                    <h3>Jobs by Category</h3>
+                    <ul class="list_2">
+                        @await Component.InvokeAsync("JobByCategory")
+                    </ul>
+                </div> *@
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+            function loadCandidates(page) {
+                $.ajax({
+                    url: '@Url.Action("Index", "Candidates")',
+                    type: 'GET',
+                    data: { page: page },
+                    success: function (result) {
+                        $('#searchJob').html(result); // Cập nhật nội dung của div#searchJob
+                        bindPaginationEvents(); // Gán lại sự kiện phân trang
+
+                        // Cập nhật URL mà không reload lại trang
+                        var newUrl = '@Url.Action("Index", "Candidates")' + "?page=" + page;
+                        history.pushState(null, null, newUrl);
+                    },
+                    error: function () {
+                        alert('Error while fetching data!');
+                    }
+                });
+            }
+
+            function bindPaginationEvents() {
+                $('.pagination').on('click', '.page-link', function (e) {
+                    e.preventDefault();
+                    var page = $(this).data('page'); // Lấy số trang từ data attribute
+                    loadCandidates(page); // Gọi hàm load trang tương ứng
+                });
+            }
+
+            $(document).ready(function () {
+                // Gán sự kiện phân trang khi trang load lần đầu
+                bindPaginationEvents();
+
+            // Xử lý khi người dùng bấm nút back/forward trên trình duyệt
+            window.onpopstate = function () {
+                    var page = new URLSearchParams(window.location.search).get("page") || 1;
+            loadCandidates(page); // Tải lại trang hiện tại khi nhấn back/forward
+                };
+
+            // Xử lý tìm kiếm bằng Ajax
+            $('#searchButton').click(function (e) {
+                e.preventDefault();
+            var query = $('#jobTitle').val(); // Lấy giá trị từ dropdown
+
+            if (query === "0") {
+                alert("Please select a valid job title!");
+            return;
+                    }
+
+            $.ajax({
+                url: '@Url.Action("Search", "Candidates")', // Action cho tìm kiếm
+            type: 'POST',
+            data: {query: query },
+            success: function (result) {
+                $('#searchJob').html(result); // Cập nhật nội dung tìm kiếm
+            bindPaginationEvents(); // Gán lại sự kiện phân trang sau khi tìm kiếm
+                        },
+            error: function () {
+                alert('Error while fetching data!');
+                        }
+                    });
+                });
+            });
+    </script>
+    }

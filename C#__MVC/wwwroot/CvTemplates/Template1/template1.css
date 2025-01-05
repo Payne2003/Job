@@ -1,0 +1,90 @@
+﻿.cv-template body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3; /* Có thể loại bỏ nếu bạn không muốn ảnh hưởng đến background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.cv-template .container1 {
+    display: flex;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cv-template .left-column {
+    width: 60%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cv-template .right-column {
+    width: 40%;
+    padding: 20px;
+    background-color: #f7f9fc;
+    box-sizing: border-box;
+}
+
+.cv-template .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 auto 20px auto;
+}
+
+.cv-template h1 {
+    color: #00aaff;
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+}
+
+.cv-template .job-title {
+    color: #666;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cv-template .section {
+    margin-top: 20px;
+}
+
+    .cv-template .section h2 {
+        font-size: 16px;
+        color: #00aaff;
+        border-bottom: 2px solid #00aaff;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    .cv-template .section p,
+    .cv-template .section ul {
+        color: #333;
+    }
+
+.cv-template ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+    .cv-template ul li {
+        margin-bottom: 5px;
+    }
+
+.cv-template a {
+    color: #00aaff;
+    text-decoration: none;
+}
+
+    .cv-template a:hover {
+        text-decoration: underline;
+    }
+
+.cv-template .contact-info p {
+    margin: 8px 0;
+}

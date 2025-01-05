@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewData["Title"] = "ListByRecruiter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<C___MVC.Models.Job>
+
+
+	<div class="inner_page_agile">
+		<h3>Jobs</h3>
+
+
+	</div>
+	<div class="services-breadcrumb_w3layouts">
+		<div class="inner_breadcrumb">
+
+			<ul class="short_w3ls" _w3ls="">
+				<li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+				<li>Job By: @ViewBag.RecruiterName</li>
+			</ul>
+		</div>
+	</div>
+	<div class="inner_content_info_agileits">
+		<div class="container">
+			<div class="tittle_head_w3ls">
+				<h3 class="tittle">Jobs Page </h3>
+			</div>
+			<div class="inner_sec_grids_info_w3ls">
+				<div class="col-md-8 job_info_left">
+					<div class="but_list">
+						<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+							<div id="myTabContent" class="tab-content">
+								<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+									@if (Model != null && Model.Any())
+									{
+									@foreach (var job in Model)
+									{
+										<div class="tab_grid">
+											<div class="col-sm-3 loc_1">
+												<a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-Id="@job.JobId"><img src="@Url.Content("~/images/" + job.Image)" alt=""></a>
+											</div>
+											<div class="col-sm-9">
+												<div class="jobs_right">
+													<div class="date">@job.ExpiredAt.ToString("dd") <span>@job.ExpiredAt.ToString("MMM")</span></div>
+													<div class="date_desc">
+														<h6 class="title"><a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-Id="@job.JobId">@job.Title</a></h6>
+														<span class="meta">@job.Location.Province</span>
+													
+													</div>
+													<p class="description">
+														@job.Description
+													</p>
+													<div class="job-status">
+														<strong>Status:</strong>
+														@if (job.Status)
+														{
+															<span class="text-success">Accept</span>
+														}
+														else
+														{
+															<span class="text-warning">Pending</span>
+														}
+													</div>
+													<div class="read"><a asp-controller="Job" asp-action="EditJob" asp-route-id="@job.JobId" class="read-more">Edit</a></div>
+													<div class="read">
+														<form method="post" asp-controller="Job" asp-action="Delete" asp-route-id="@job.JobId"
+															  onsubmit="return confirm('Are you sure you want to delete this job?');">
+															<button type="submit" class="read-more delete-button">Delete</button>
+														</form>
+
+													</div>
+													
+													<div class="clearfix"> </div>
+												</div>
+											</div>
+											<div class="clearfix"> </div>
+										</div>
+									}
+									}
+									else
+									{
+										<p>No Jobs found.</p>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 job_info_right">
+				<div class="widget_search">
+					<h5 class="widget-title">Search</h5>
+					<div class="widget-content">
+						<span>I'm looking for a ...</span>
+						<select id="category" class="form-control jb_1">
+							@await Component.InvokeAsync("FindCategory")
+						</select>
+						<span>in</span>
+						<select id="location" onchange="change_country(this.value)" class="form-control jb_1">
+							<option value="" disabled selected>Select Location</option> <!-- Placeholder option -->
+							@await Component.InvokeAsync("Location")
+						</select>
+						<input id="btn-categoryandlocation" type="submit" value="Search">
+					</div>
+				</div>
+				
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+@section Scripts {
+	<script>
+		$('.id_category').click(function (e) {
+
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory1",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response, id);
+				}
+			});
+		});
+		$(document).ready(function () {
+			// Bắt sự kiện submit của form có id #filter-form
+			$('#filter-form').click(function (e) {
+				e.preventDefault(); // Ngăn form reload trang
+
+				// Thu thập danh sách skillIds đã chọn
+				var skillIds = [];
+				$('input[name="skillIds"]:checked').each(function () {
+					skillIds.push($(this).val());
+				});
+
+				// Gửi request Ajax tới server
+				$.ajax({
+					url: '@Url.Action("FilterBySkills", "Job")', // Địa chỉ action FilterBySkills
+					type: 'POST', // Phương thức POST
+					data: { skillIds: skillIds }, // Dữ liệu gửi lên server
+					success: function (result) {
+						// Đưa kết quả (danh sách công việc) vào div #myTabContent
+						$('div#myTabContent').html(result);
+					},
+					error: function (xhr, status, error) {
+						// Hiển thị thông báo lỗi nếu có
+						alert('An error occurred: ' + error);
+					}
+				});
+			});
+			$(document).ready(function () {
+				// Bắt sự kiện khi nhấn nút #btn-categoryandlocation
+				$('#btn-categoryandlocation').click(function (e) {
+					e.preventDefault(); // Ngăn trang reload
+
+					// Lấy giá trị từ dropdown #category và #location
+					var selectedCategory = $('#category').val();
+					var selectedLocation = $('#location').val();
+
+					// Kiểm tra nếu người dùng đã chọn category và location
+					if (selectedCategory && selectedLocation) {
+						// Gửi request Ajax tới server
+						$.ajax({
+							url: '@Url.Action("FindJobNotKey_ByRecruiter", "Job")', // Địa chỉ action FilterByCategoryAndLocation
+							type: 'POST', // Phương thức POST
+							data: { categoryId: selectedCategory, locationId: selectedLocation }, // Dữ liệu gửi lên server
+							success: function (result) {
+								// Đưa kết quả (danh sách công việc) vào div #myTabContent
+								$('div#myTabContent').html(result);
+							},
+							error: function (xhr, status, error) {
+								// Hiển thị thông báo lỗi nếu có
+								alert('An error occurred: ' + error);
+							}
+						});
+					} else {
+						alert("Please select both Category and Location.");
+					}
+				});
+			});
+		});
+
+	</script>
+}

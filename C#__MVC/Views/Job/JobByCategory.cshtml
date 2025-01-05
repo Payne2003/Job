@@ -1,0 +1,134 @@
+﻿@using X.PagedList
+@model X.PagedList.IPagedList<Job>
+
+<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+        @foreach (var job in Model)
+        {
+            var isSaved = ((List<int>)ViewBag.SavedJobIds).Contains(job.JobId);
+                var isExpired = job.ExpiredAt < DateTime.Now;
+            <div class="col-md-6 mb-3">
+                <div class="tab_grid" data-jobid="@job.JobId">
+                    <div class="col-sm-4 loc_1">
+                        <a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobId">
+                            <img src="~/images/@job.Image" alt="" class="img-thumbnail">
+                        </a>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="jobs_right">
+                            <div class="date_desc">
+                                <h6 class="title"><a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobId">@job.Title</a></h6>
+                                <span class="meta">@job.Location.Province</span>
+                            </div>
+                            <p class="description">Company: @job.Company</p>
+                            <p class="salary"><strong>Salary: </strong> @job.Salary.ToString("C")</p>
+                                @if (isExpired)
+                                {
+                                    <p class="badge badge-danger">Expired</p>
+                                }
+                                else
+                                {
+                                    <p class="badge badge-success">Active</p>
+                                }
+
+                            <ul class="top-btns">
+                                <li>
+                                    <a href="#" class="fa fa-heart toggle" style="color: @(isSaved ? "red" : "rgb(162, 162, 162)")"></a>
+                                </li>
+                                <li><a href="#" class="fa fa-star"></a></li>
+                                @foreach (var link in job.Links)
+                                {
+                                    if (link.Name == "Google Maps")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a></li>
+                                    }
+                                    else if (link.Name == "Facebook")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a></li>
+                                    }
+                                    else if (link.Name == "YouTube")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a></li>
+                                    }
+                                    else if (link.Name == "Instagram")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a></li>
+                                    }
+                                }
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+        }
+        else
+        {
+        <div class="alert alert-warning" role="alert">
+            No jobs available at the moment. Please check back later.
+        </div>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Khi người dùng nhấn vào nút "fa-plus"
+        $('.toggle').on('click', function (e) {
+            e.preventDefault(); // Ngăn trang load lại
+
+            var $this = $(this); // Lưu tham chiếu đến phần tử được nhấn
+            var jobId = $this.closest('.tab_grid').data('jobid'); // Lấy jobId từ phần tử chứa
+
+            // Đổi màu sắc ngay lập tức
+            if ($this.css('color') === 'rgb(162, 162, 162)') {
+                $this.css('color', 'red'); 
+            } else {
+                $this.css('color', 'rgb(162, 162, 162)'); // Đổi về màu xám nếu nút đang màu xanh
+            }
+
+            $.ajax({
+                url: '/Job/SaveJob', // URL action lưu công việc
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Hiển thị thông báo thành công
+                    } else {
+                        // Đặt lại màu sắc về trạng thái ban đầu nếu có lỗi
+                        if (response.message === "Please log in to save jobs.") {
+                            // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+                            window.location.href = '/Auth/Login';
+                        } else {
+                            alert(response.message); // Hiển thị thông báo lỗi khác
+                            // Đặt lại màu sắc về trạng thái ban đầu
+                            if ($this.css('color') === 'red') {
+                                $this.css('color', 'rgb(162, 162, 162)'); // Đặt lại về màu xám
+                            } else {
+                                $this.css('color', 'red'); // Đặt lại về màu xanh
+                            }
+                        }
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while saving the job.');
+                    // Đặt lại màu sắc về trạng thái ban đầu nếu có lỗi
+                    if ($this.css('color') === 'red') {
+                        $this.css('color', 'rgb(162, 162, 162)'); // Đặt lại về màu xám
+                    } else {
+                        $this.css('color', 'red'); // Đặt lại về màu xanh
+                    }
+                }
+            });
+        });
+    });
+</script>
+

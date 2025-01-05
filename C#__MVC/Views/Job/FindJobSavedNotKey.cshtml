@@ -1,0 +1,82 @@
+﻿@model IEnumerable<C___MVC.Models.SavedJob>
+
+<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var savedJob in Model)
+        {
+            <div class="tab_grid">
+                <div class="col-sm-3 loc_1">
+                    <a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-id="@savedJob.JobId">
+                        <img src="@Url.Content("~/images/" + savedJob.Job.Image)" alt="">
+                    </a>
+                </div>
+
+                <div class="col-sm-9">
+                    <div class="jobs_right">
+                        <div class="date">
+                            @savedJob.Job.ExpiredAt.ToString("dd")
+                            <span>@savedJob.Job.ExpiredAt.ToString("MMM")</span>
+                        </div>
+
+                        <div class="date_desc">
+                            <h6 class="title">
+                                <a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-id="@savedJob.JobId">
+                                    @savedJob.Job.Title
+                                </a>
+                            </h6>
+                            <span class="meta">@savedJob.Job.Location.Province</span>
+                        </div>
+
+                        <p class="description">@savedJob.Job.Description</p>
+
+                        <p>Saved at: @savedJob.SavedAt.ToString("MM/dd/yyyy hh:mm tt")</p>
+
+                        <div class="delete-job">
+                            <button type="button" class="btn btn-danger delete-saved-job" data-jobid="@savedJob.JobId">Delete</button>
+                        </div>
+
+
+                        <ul class="top-btns">
+                            <li><a href="#" class="fa fa-heart toggle"></a></li>
+                            <li><a href="#" class="fa fa-star"></a></li>
+                            @foreach (var link in savedJob.Job.Links)
+                            {
+                                <li>
+                                    @if (link.Name == "Google Maps")
+                                    {
+                                        <a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a>
+                                    }
+                                    else if (link.Name == "Facebook")
+                                    {
+                                        <a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a>
+                                    }
+                                    else if (link.Name == "YouTube")
+                                    {
+                                        <a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a>
+                                    }
+                                    else if (link.Name == "Instagram")
+                                    {
+                                        <a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>You haven't saved any job yet.</p>
+    }
+</div>

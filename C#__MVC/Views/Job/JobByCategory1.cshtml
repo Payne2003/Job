@@ -1,0 +1,70 @@
+﻿@using X.PagedList
+@model X.PagedList.IPagedList<Job>
+
+				<div id="myTabContent" class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+						
+						@foreach (var job in Model)
+						{
+							<div class="tab_grid">
+								<div class="col-sm-3 loc_1">
+									<a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-Id="@job.JobId"><img src="@Url.Content("~/images/" + job.Image)" alt=""></a>
+								</div>
+								<div class="col-sm-9">
+									<div class="jobs_right">
+										<div class="date">@job.ExpiredAt.ToString("dd") <span>@job.ExpiredAt.ToString("MMM")</span></div>
+										<div class="date_desc">
+											<h6 class="title"><a asp-controller="Resume" asp-action="ListResumebyJob" asp-route-Id="@job.JobId">@job.Title</a></h6>
+											<span class="meta">@job.Location.Province</span>
+
+										</div>
+										<p class="description">
+											@job.Description
+										</p>
+										<div class="job-status">
+											<strong>Status:</strong>
+											@if (job.Status)
+											{
+												<span class="text-success">Accept</span>
+											}
+											else
+											{
+												<span class="text-warning">Pending</span>
+											}
+										</div>
+										<div class="read"><a asp-controller="Job" asp-action="EditJob" asp-route-id="@job.JobId" class="read-more">Edit</a></div>
+										<ul class="top-btns">
+											<li><a href="#" class="fa fa-heart toggle"></a></li>
+											<li><a href="#" class="fa fa-star"></a></li>
+											@foreach (var link in job.Links)
+											{
+												if (link.Name == "Google Maps")
+												{
+													<li><a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a></li>
+												}
+												else if (link.Name == "Facebook")
+												{
+													<li><a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a></li>
+												}
+												else if (link.Name == "YouTube")
+												{
+													<li><a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a></li>
+												}
+												else if (link.Name == "Instagram")
+												{
+													<li><a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a></li>
+												}
+												else
+												{
+													<li><a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a></li>
+												}
+											}
+										</ul>
+										<div class="clearfix"> </div>
+									</div>
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+						}
+		
+		

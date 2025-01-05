@@ -1,0 +1,655 @@
+﻿@model C___MVC.Models.Job
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="inner_page_agile">
+    <h3>Job Page</h3>
+
+
+</div>
+<div class="services-breadcrumb_w3layouts">
+    <div class="inner_breadcrumb">
+
+        <ul class="short_w3ls" _w3ls="">
+            <li><a asp-controller="Home" asp-action="Index">Home</a><span>|</span></li>
+
+            <li>Job Page</li>
+        </ul>
+    </div>
+</div>
+<div class="inner_content_info_agileits">
+    <div class="container">
+        <div class="tittle_head_w3ls">
+            <h3 class="tittle">Job Info </h3>
+        </div>
+        <div class="inner_sec_grids_info_w3ls">
+            <div class="col-md-8 job_info_left">
+                <div class="single-left1">
+                    @* <img src="~/images/@Model.Image" alt=" " class="img-responsive"> *@
+                   
+                    <ul>
+                        <li><span class="fa fa-tag" aria-hidden="true"></span>@Model.Quantity people</li>
+                        <li><span class="fa fa-money" aria-hidden="true"></span>Salary: @Model.Salary.ToString("C")</li>
+                        <li><span class="fa fa-calendar" aria-hidden="true"></span>Expire: @Model.ExpiredAt.ToString("MM/dd/yyyy")</li>
+
+                        <li><span class="fa fa-building" aria-hidden="true"></span>Experience: @Model.Experience year</li>
+                    </ul>
+                    <p><strong>Description: </strong>@Model.Description</p>
+                   
+                    <p><strong>Category: </strong>@Model.Category.Name</p>
+                    <p><strong>Location: </strong>@Model.Location.Province</p>
+                    
+                                         
+                        @if (Model.ExpiredAt < DateTime.Now)
+                        {
+                            <p><strong>Expired In: </strong>Recruitment has expired</p>
+                        }
+                        else
+                        {
+                            <p><strong>Expired In: </strong> @ViewBag.DaysLeft Days Left</p>
+                        }
+                   
+
+                    <h4 class="job-details-title">Job Requirements:</h4>
+                    @foreach (var skill in Model.Skills)
+                    {
+                        <p><strong>+ </strong>@skill.Description</p>
+                    }
+                </div>
+                <div class="btn-apply">
+                    <!-- Nút Apply Now -->
+                    <div class="apply-button">
+                        @if (ViewBag.CandidateId == 0)
+                        {
+                            <!-- Nếu chưa đăng nhập, hiển thị thông báo hoặc nút yêu cầu đăng nhập -->
+                            <form method="post" asp-action="ShowMessage1">
+                                <button type="submit" class="btn btn-danger"> Apply Now</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <!-- Kiểm tra nếu công việc đã hết hạn -->
+                            @if (Model.ExpiredAt < DateTime.Now)
+                            {
+                                <!-- Nếu hết hạn, hiển thị nút Apply Now -->
+                                <form method="post" asp-action="ShowMessage" asp-route-id="@Model.JobId">
+                                    <button type="submit" class="btn btn-danger">Apply Now</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <!-- Nếu chưa hết hạn, hiển thị nút Apply Now -->
+                                <a href="#" class="btn btn-primary btn-wide" onclick="openModal(); return false;">
+                                    Apply Now
+                                </a>
+                            }
+                        }
+                    </div>
+
+                    <div class="save-news-button">
+                        <a href="#" class="btn btn-secondary btn-small save-job-btn @(ViewBag.IsSaved ? "saved" : "")"
+                           data-jobid="@Model.JobId">
+                            @if (ViewBag.IsSaved)
+                            {
+                                <span>Saved</span>
+                            }
+                            else
+                            {
+                                <span>Save News</span>
+                            }
+                        </a>
+                    </div>
+
+
+
+
+
+                    
+                </div>
+              
+
+                <!-- Phần bình luận -->
+                <div class="comments">
+                    <h3 class="single">Comments</h3>
+                    <div class="comments-grids">
+                        <div class="comments-grid">
+                            <div class="comments-grid-left">
+                                <img src="~/images/u1.jpg" alt=" " class="img-responsive">
+                            </div>
+                            <div class="comments-grid-right">
+                                <h4><a href="#">Duy La</a></h4>
+                                <ul>
+                                    <li>5 Nov 2024 <i>|</i></li>
+                                    <li><a href="#">Reply</a></li>
+                                </ul>
+                                <p>
+                                    This job is pretty good
+                                </p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="comments-grid">
+                            <div class="comments-grid-left">
+                                <img src="~/images/u3.jpg" alt=" " class="img-responsive">
+                            </div>
+                            <div class="comments-grid-right">
+                                <h4><a href="#">Hoàng Hùng</a></h4>
+                                <ul>
+                                    <li>8 Nov 2024 <i>|</i></li>
+                                    <li><a href="#">Reply</a></li>
+                                </ul>
+                                <p>
+                                    Please contact me
+                                </p>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="w3layouts_mail_grid single">
+                            <h3 class="single">Leave a Comment</h3>
+                            <form action="#" method="post">
+                                <div class="col-md-6 wthree_contact_left_grid">
+                                    <input type="text" name="Name" placeholder="Name" required="">
+                                    <input type="email" name="Email" placeholder="Email" required="">
+                                    <input type="text" name="Telephone" placeholder="Telephone" required="">
+                                    <input type="text" name="Subject" placeholder="Subject" required="">
+                                </div>
+                                <div class="col-md-6 wthree_contact_left_grid">
+                                    <textarea name="Message" placeholder="Message..." required=""></textarea>
+                                    <input type="submit" value="Submit">
+                                </div>
+                                <div class="clearfix"> </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột bên phải: thông tin khác -->
+            <div class="col-md-4 job_info_right">
+                <div class="widget_search">
+                    <img src="~/images/@Model.Image" alt="@Model.Title" class="img-responsive" />
+                </div>
+
+
+                <div class="col_3 permit">
+                    <h3>Recruiter Details</h3>
+                    <ul class="list_2" style="list-style-type: none; padding: 0;">
+                        <li >
+                            <strong>Recruiter:</strong> @Model.Recruiter.UserName
+                        </li>
+                        <li>
+                            <strong>Location:</strong> @Model.Location.Province 
+                        </li>
+                        <li>
+                            <strong>Company:</strong> @Model.Company
+                        </li>
+                        <li class="fix1">
+                            <ul class="top-links">
+                                <li>
+                                    <strong>Link: </strong>
+                                </li>
+                          
+                                @foreach (var link in Model.Links)
+                                {
+                                    if (link.Name == "Google Maps")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a></li>
+                                    }
+                                    else if (link.Name == "Facebook")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a></li>
+                                    }
+                                    else if (link.Name == "YouTube")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a></li>
+                                    }
+                                    else if (link.Name == "Instagram")
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a></li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    </ul>                 
+                 
+                </div>
+
+                <div class="col_3 experience">
+                    <h3>General information</h3>
+                    <ul class="list_2" style="list-style-type: none; padding: 0;">
+                        <li>
+                            <strong>Position:</strong> Staff
+                        </li>
+                        <li>
+                            <strong>Experience:</strong> @Model.Experience year
+                        </li>
+                        <li>
+                            <strong>Quantity:</strong> @Model.Quantity
+                        </li>
+                        <li>
+                            <strong>Sex:</strong> Not required
+                        </li>
+                        <li>
+                            <strong>Working form:</strong> Full time
+                        </li>
+                    </ul>
+                </div>
+                <div class="col_3 experience">
+                    <h3>Related Jobs</h3>
+                    <div class="row">
+                        @if (ViewBag.RelatedJobs != null && ((List<Job>)ViewBag.RelatedJobs).Count > 0)
+                        {
+                         
+                            foreach (var job in (List<Job>)ViewBag.RelatedJobs)
+                            {
+                                    if (job != null && job.ExpiredAt != null)
+                                    {
+                                var isExpired = job.ExpiredAt < DateTime.Now;
+                                <div class="tab_grid">
+                                    <!-- Job Image -->
+                                    <div class="col-sm-3 loc_1">
+                                        <a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobId">
+                                            <img src="~/images/@job.Image" alt="" class="img-thumbnail">
+                                        </a>
+                                    </div>
+                                  
+                                    <!-- Job Details -->
+                                    <div class="col-sm-9">
+                                        <div class="jobs_right">
+                                            <div class="date_desc">
+                                                <h6 class="title"><a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobId">@job.Title</a></h6>
+                                                <span class="meta">@job.Location.Province</span>
+                                            </div>
+                                            <!-- Title and Location -->
+                                            <p class="description">Company: @job.Company</p>
+                                            <p class="salary"><strong>Salary: </strong> @job.Salary.ToString("C")</p>
+                                            @if (isExpired)
+                                            {
+                                                <p class="badge badge-danger">Expired</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="badge badge-success">Active</p>
+                                            }
+
+                                          
+                                            <!-- Links -->
+                                            <ul class="top-btns">
+                                                <li><a href="#" class="fa fa-heart toggle"></a></li>
+                                                <li><a href="#" class="fa fa-star"></a></li>
+                                                @foreach (var link in job.Links)
+                                                {
+                                                    if (link.Name == "Google Maps")
+                                                    {
+                                                        <li>
+                                                            <a href="@link.Description" class="fa fa-map" target="_blank" title="View on Google Maps"></a>
+                                                        </li>
+                                                    }
+                                                    else if (link.Name == "Facebook")
+                                                    {
+                                                        <li>
+                                                            <a href="@link.Description" class="fa fa-facebook" target="_blank" title="View on Facebook"></a>
+                                                        </li>
+                                                    }
+                                                    else if (link.Name == "YouTube")
+                                                    {
+                                                        <li>
+                                                            <a href="@link.Description" class="fa fa-youtube" target="_blank" title="View on YouTube"></a>
+                                                        </li>
+                                                    }
+                                                    else if (link.Name == "Instagram")
+                                                    {
+                                                        <li>
+                                                            <a href="@link.Description" class="fa fa-instagram" target="_blank" title="View on Instagram"></a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="@link.Description" class="fa fa-link" target="_blank" title="View link"></a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            }
+                            }
+                        }
+                        else
+                        {
+                            <p>No related jobs found.</p>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- Modal Structure -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal();">&times;</span>
+        <div class="candidate_cv">
+            <div class="tittle_head_w3ls">
+                <h3 class="tittle two">Candidate Cv</h3>
+            </div>
+            <div class="inner_sec_grids_info login-form">
+                <form action="/Resume/Apply" method="post" enctype="multipart/form-data">
+                    <!-- Hidden Field: JobId được lấy từ Model -->
+                    <input type="hidden" name="JobId" value="@Model.JobId" />
+                    <div class="form-inputs upload">
+                        <p>Upload Your Cv</p>
+                        <input type="file" id="fileselect" name="Cv" required onchange="showFileName()" />
+                        <div id="filedrag">Upload</div>
+                        <!-- Nơi để hiện tên file -->
+                        <p id="file-name" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 form-right">
+                        <div class="form-inputs name">
+                            <p>Introduce Yourself</p>
+                            <i class="fa fa-comment" aria-hidden="true"></i>
+                            <textarea name="Introduce" placeholder="Tell us about yourself"></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit Cv">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.save-job-btn').on('click', function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            var jobId = $this.data('jobid');
+            var isSaved = $this.hasClass('saved');
+
+            // Cập nhật UI ngay lập tức khi người dùng nhấn
+            if (isSaved) {
+                $this.removeClass('saved');
+                $this.html('<span>Save News</span>');
+            } else {
+                $this.addClass('saved');
+                $this.html('<span>Saved</span>');
+            }
+            console.log("Initial isSaved value on page load: " + isSaved);
+            // Gửi yêu cầu AJAX
+            $.ajax({
+                url: '/Job/SaveJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function (response) {
+                    // Kiểm tra phản hồi từ server
+                    if (response.success) {
+                        // Hiển thị thông báo thành công
+                        alert(response.message);
+                    } else {
+                        // Đặt lại màu sắc về trạng thái ban đầu nếu có lỗi
+                        if (response.message === "Please log in to save jobs.") {
+                            // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+                            window.location.href = '/Auth/Login';
+                        } else {
+                            // Nếu có lỗi, phục hồi lại trạng thái ban đầu của nút
+                            if (isSaved) {
+                                $this.addClass('saved');
+                                $this.html('<span>Saved</span>');
+                            } else {
+                                $this.removeClass('saved');
+                                $this.html('<span>Save News</span>');
+                            }
+                            alert(response.message); // Hiển thị thông báo lỗi nếu có
+                        }
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while saving the job.');
+                    // Hoàn tác lại nếu có lỗi
+                    if (isSaved) {
+                        $this.addClass('saved');
+                        $this.html('<span>Saved</span>');
+                    } else {
+                        $this.removeClass('saved');
+                        $this.html('<span>Save News</span>');
+                    }
+                }
+            });
+        });
+    });
+
+
+
+
+
+</script>
+
+
+<style>
+    .fix1{
+        margin-left: -10px;
+    }
+    .top-links {
+        display: flex; /* Sử dụng flexbox cho danh sách liên kết */
+        list-style: none; /* Bỏ dấu chấm trước mỗi liên kết */
+        padding: 0; /* Bỏ padding */
+        margin: 0; /* Bỏ margin */
+    }
+
+        .top-links li {
+            margin-left: 10px; /* Khoảng cách giữa các liên kết */
+        }
+
+        .top-links a {
+            color: #333; /* Màu chữ cho các liên kết */
+            text-decoration: none; /* Bỏ gạch chân */
+        }
+    .btn-apply {
+        display: flex; /* Sử dụng flexbox để căn chỉnh nút */
+        justify-content: flex-start; /* Căn chỉnh sang bên trái */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        gap: 10px; /* Khoảng cách giữa các nút */
+    }
+    .btn-apply .apply-button .btn-primary:hover {
+    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo hiệu ứng bóng */
+}
+
+        .btn-apply .save-news-button .btn-secondary:hover {
+            background-color: #5a6268; /* Màu xám đậm hơn khi hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo hiệu ứng bóng */
+        }
+    .apply-button .btn {
+        padding: 5px 15px; /* Kích thước nút */
+        background-color: #007bff; /* Màu nền cho nút Apply */
+        color: white; /* Màu chữ */
+        border: none; /* Bỏ viền */
+    }
+
+    .save-news-button .btn {
+        padding: 5px 15px; /* Kích thước nút */
+        background-color: #6c757d; /* Màu nền cho nút Save News */
+        color: white; /* Màu chữ */
+        border: none; /* Bỏ viền */
+    }
+
+    .btn {
+        text-decoration: none; /* Bỏ gạch chân */
+        border-radius: 4px; /* Bo góc */
+    }
+
+    .btn-small {
+        padding: 5px 10px; /* Giảm kích thước nút */
+        font-size: 14px; /* Giảm kích thước chữ */
+    }
+
+    .comments {
+        margin-top: 4%; /* Cách phần bình luận 4% với phần trên */
+    }
+
+    .job_info_left {
+        background: #fff; /* Nền trắng cho phần thông tin công việc */
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng */
+        padding: 20px; /* Thêm padding để không bị chèn vào viền */
+    }
+
+    .job-details {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .comments-grid {
+        border-bottom: 1px solid #ddd; /* Đường phân cách giữa các bình luận */
+        padding: 10px 0;
+    }
+
+    .comments-grid-right h4 {
+        font-size: 16px; /* Kích thước tiêu đề bình luận */
+        color: #007bff; /* Màu tiêu đề */
+    }
+
+    .comments-grid-right p {
+        font-size: 14px; /* Kích thước nội dung bình luận */
+    }
+
+    .w3layouts_mail_grid input[type="text"],
+    .w3layouts_mail_grid input[type="email"],
+    .w3layouts_mail_grid textarea {
+        border: 1px solid #ccc; /* Đường viền cho các input */
+        border-radius: 4px; /* Bo góc */
+        padding: 10px; /* Thêm padding */
+        width: 100%; /* Chiều rộng đầy đủ */
+    }
+
+    .w3layouts_mail_grid input[type="submit"] {
+        background-color: #007bff; /* Màu nền nút gửi */
+        color: white; /* Màu chữ */
+        border: none; /* Bỏ viền */
+        border-radius: 4px; /* Bo góc */
+        padding: 10px; /* Thêm padding */
+        cursor: pointer; /* Thay đổi con trỏ */
+    }
+
+        .w3layouts_mail_grid input[type="submit"]:hover {
+            background-color: #0056b3; /* Màu khi hover */
+        }
+
+    /* Modal Styles */
+    .modal-content {
+        border-radius: 10px; /* Bo góc cho modal */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Bóng cho modal */
+    }
+
+    .btn-wide {
+        width: 100%; /* Chiều rộng đầy đủ của phần chứa nút */
+        max-width: 500px; /* Đặt chiều rộng tối đa của nút */
+        text-align: center; /* Căn giữa văn bản trong nút */
+        display: block; /* Đảm bảo nút là một khối để chiều rộng có hiệu lực */
+        margin: 0 auto; /* Căn giữa nút theo chiều ngang */
+    }
+
+    .job-details {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd; /* Đặt đường viền xung quanh */
+        border-radius: 8px; /* Bo góc cho div */
+        background-color: #f9f9f9; /* Nền sáng cho khu vực chi tiết */
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Ẩn modal theo mặc định */
+        position: fixed;
+        z-index: 1; /* Đưa modal lên trên các phần tử khác */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4); /* Nền mờ cho modal */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Chiều rộng của modal */
+    }
+
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    /* Thêm kiểu cho form và các phần tử bên trong modal */
+
+</style>
+
+<script>
+    // Mở modal
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    // Đóng modal
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    // Đóng modal khi nhấn ra ngoài modal
+    window.onclick = function (event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function showFileName() {
+        // Lấy đối tượng input file
+        var input = document.getElementById('fileselect');
+        // Lấy tên file
+        var fileName = input.files[0].name;
+        // Hiển thị tên file vào phần tử có id là "file-name"
+        document.getElementById('file-name').textContent = "File Selected: " + fileName;
+    }
+
+</script>
+
+
+@section Styles {
+
+    <link href="~/css/bootstrap2.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/css/site.css" rel="stylesheet" type="text/css" media="all" />
+}
+
+<!-- Nội dung trang detail và modal -->

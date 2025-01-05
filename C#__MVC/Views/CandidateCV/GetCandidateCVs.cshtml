@@ -1,0 +1,36 @@
+﻿@* @model IEnumerable<C___MVC.Models.CandidateCV>
+
+@{
+    ViewData["Title"] = "GetCandidateCVs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetCandidateCVs</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Candidate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CV)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Candidate.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CV.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@

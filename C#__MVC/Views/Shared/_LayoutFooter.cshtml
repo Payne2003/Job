@@ -1,0 +1,283 @@
+﻿<link rel="stylesheet" href="~/css/Chatbot.css">
+<div class="footer_top_agileits">
+    <div class="container">
+        <div class="col-md-4 footer_grid">
+            <h3>About Us</h3>
+            <p>
+                We pride ourselves on being a trusted job search platform, providing the most suitable job opportunities from top employers. With a friendly, easy-to-use interface and optimal support features.
+            </p>
+        </div>
+        <div class="col-md-4 footer_grid">
+            <h3>Partner</h3>
+            <ul class="footer_grid_list">
+                <li>
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <a href="https://www.topcv.vn/viec-lam">TopCV</a>
+                </li>
+                <li>
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <a href="https://www.vietnamworks.com/">VietnamWorks</a>
+                </li>
+                <li>
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <a href="https://careerviet.vn/">CareerViet</a>
+                </li>
+                <li>
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <a href="https://vieclam24h.vn/">Vieclam24h</a>
+                </li>
+                <li>
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                    <a href="https://topdev.vn/">TopDev</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4 footer_grid">
+            <h3>Contact Info</h3>
+            <ul class="address">
+                <li><i class="fa fa-map-marker" aria-hidden="true"></i> UTC, CNTT3 <span>HaNoi city.</span></li>
+                <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:lahuuduy28@gmail.com">lahuuduy28@gmail.com</a></li>
+                <li><i class="fa fa-phone" aria-hidden="true"></i>0387559262</li>
+            </ul>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="footer_grids">
+        </div>
+    </div>
+</div>
+<div class="footer_w3ls">
+    <div class="container">
+        <div class="footer_bottom">
+            <div class="col-md-9 footer_bottom_grid">
+                <div class="footer_bottom1">
+                    <a asp-controller="Home" asp-action="Index" class="footer-logo">
+                        <img src="~/images/LogoJobb.png" alt="Logo" class="footer-image" />
+                    </a>
+                    <p style="margin: 0; font-size: 14px; white-space: nowrap;">
+                    <p class="footer-text">
+                        © 2024Soft. All rights reserved | Design by
+                        <a style="text-decoration: none; color: inherit;">GROUP 9</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="chatbot-container" class="chatbot-container">
+    <div id="chatbot-header" class="chatbot-header">
+        <span>Trung tâm hỗ trợ On Job  </span>
+        <button id="close-chatbot" class="close-chatbot" onclick="toggleChatbot()"></button>
+    </div>
+    <div id="chatbot-body" class="chatbot-body">
+        <div id="chatbot-messages" class="chatbot-messages"></div>
+        <div class="input-container">
+            <textarea id="user-input" class="user-input" placeholder="Bạn cần tôi tư vấn gì .... ?"></textarea>
+            <button id="send-message" class="send-message">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW8SU0KGpzrC1rA9t8MDSA-4rl6jTrtsH0bA&s" alt="Send Message" style="width: 24px; height: 24px;">
+            </button>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="chatbot-icon" class="chatbot-icon" onclick="toggleChatbot()">
+    <img src="https://cdn-new.topcv.vn/unsafe/https://static.topcv.vn/v4/image/support-ticket/customer.png" alt="Chatbot" class="chatbot-image">
+</div>
+<style>
+
+    .footer_bottom1 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .footer-logo {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .footer-image {
+        width: auto;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .footer-text {
+        margin: 0;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .footer-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .footer_w3ls {
+        padding-bottom: 32px;
+        display: flex;
+        align-items: center; /* Căn giữa logo theo chiều dọc */
+        height: 80px; /* Đặt chiều cao cố định cho footer */
+    }
+</style>
+<script>
+
+    function toggleChatbot() {
+        const chatbot = document.getElementById('chatbot-container');
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const isOpen = chatbot.style.display === 'flex';
+
+        if (isOpen) {
+            chatbot.style.display = 'none';
+            chatbotIcon.innerHTML = `
+                    <img src="https://cdn-new.topcv.vn/unsafe/https://static.topcv.vn/v4/image/support-ticket/customer.png"
+                        alt="Chatbot" class="chatbot-image">
+                `;
+        } else {
+            chatbot.style.display = 'flex';
+            chatbotIcon.innerHTML = `<span style="font-size: 24px; color: white;">×</span>`;
+        }
+    }
+
+    function getChatbotResponse(userMessage) {
+        const responses = [
+            {
+                keywords: ["xin", "chào", "hello", "hi"],
+                response: "Chào bạn ? Trung tâm hỗ trợ tìm kiếm và giới thiệu việc làm OnJob xin chào ! Bạn cần tôi giúp gì ❤️ "
+            },
+            {
+                keywords: ["ứng tuyển", "apply", "đơn", "nộp đơn", "cách ứng tuyển"],
+                response: "Để ứng tuyển vào vị trí bạn mong muốn , bạn hãy truy cập vào  trang công việc của chúng tôi, chọn vị trí bạn quan tâm và làm theo quy trình ứng tuyển ❤️"
+            },
+            {
+                keywords: ["vị trí tuyển dụng", "tuyển dụng ", "công việc", "position", "job"],
+                response: "Bạn có thể xem các vị trí tuyển dụng của chúng tôi trên trang chủ . Hiện tại Website chúng tôi đang tìm kiếm ứng viên , tuyển dụng các vị trí trong lĩnh vực marketing, bán hàng, phát triển phần mềm,..❤️"
+            },
+            {
+                keywords: ["Địa chỉ", "công ty ở đâu", "địa chỉ công ty", "company location", "location"],
+                response: "Công ty chúng tôi có trụ sở chính tại số 3 / Cầu giấy, ngoài ra chúng tôi còn có các chi nhánh nhỏ ở các thành phố lớn như đà nẵng , Hồ chí minh ,...❤️"
+            },
+            {
+                keywords: ["yêu cầu công việc", "yêu cầu vị trí", "requirements", "job requirements"],
+                response: "Bạn hãy tìm công việc ứng tuyển bạn muốn và vào xem yêu cầu mà công việc đó cần là gì 👍."
+            },
+            {
+                keywords: ["phỏng vấn", "interview", "chuẩn bị phỏng vấn", "how to prepare for interview", "chuẩn bị"],
+                response: "Để chuẩn bị cho một cuộc phỏng vấn, bạn nên tìm hiểu về công ty, hiểu rõ công việc mình ứng tuyển và luyện tập với các câu hỏi phỏng vấn thường gặp. Chúng tôi khuyên bạn nên thể hiện sự nhiệt huyết và kỹ năng phù hợp với công việc ❤️"
+            },
+            {
+                keywords: ["help", "giúp", "hỗ trợ", "giúp tôi", "cần giúp"],
+                response: "Tôi có thể giúp gì cho bạn? Hãy cho tôi biết bạn cần hỗ trợ về điều gì!"
+            },
+            {
+                keywords: ["Làm thế nào để nộp hồ sơ ứng tuyển", "Làm thế nào để nộp hồ sơ"],
+                response: "Bạn hãy truy cập vào công việc mong muốn và ứng tuyển theo yêu cầu cách thức của từng công việc "
+            },
+            {
+                keywords: ["Tôi có thể gửi CV qua email được không?", "Tôi có thể gửi CV qua email , gmail ?"],
+                response: "Bạn có thể gửi CV qua email, hoặc profile docx , pdf , tùy cách công ty yêu cầu "
+            },
+            {
+                keywords: ["Thời gian làm việc như thế nào?", "Thời gian làm việc"],
+                response: "Bạn có thể gửi CV qua email, hoặc profile docx , pdf , tùy cách công ty yêu cầu "
+            },
+            {
+                keywords: ["default"],
+                response: "Xin lỗi , tôi đang chưa rõ vấn đề bạn hỏi ở đây là gì , Bạn có thể hỏi lại để tôi tư vấn cho bạn ❤️"
+            }
+        ];
+
+        const userMessageLower = userMessage.toLowerCase();
+
+        for (const responseObj of responses) {
+            for (const keyword of responseObj.keywords) {
+                if (userMessageLower.includes(keyword)) {
+                    return responseObj.response;
+                }
+            }
+        }
+
+        return "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Bạn có thể diễn đạt lại giúp tôi không?";
+    }
+
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const userMessage = userInput.value.trim();
+
+        if (userMessage) {
+            appendMessage(userMessage, 'user');
+
+            showTypingIndicator();
+
+            const chatbotResponse = getChatbotResponse(userMessage);
+
+            setTimeout(() => {
+                hideTypingIndicator();
+                appendMessage(chatbotResponse, 'chatbot');
+            }, 3000);
+
+            userInput.value = '';
+        }
+    }
+
+    function showTypingIndicator() {
+        const messagesContainer = document.getElementById('chatbot-messages');
+        const typingIndicator = document.createElement('div');
+        typingIndicator.id = 'typing-indicator';
+        typingIndicator.classList.add('chatbot-message');
+        typingIndicator.innerHTML = '<span>●</span><span>●</span><span>●</span>';
+
+        messagesContainer.appendChild(typingIndicator);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    function appendMessage(message, sender) {
+        const messagesContainer = document.getElementById('chatbot-messages');
+        const messageDiv = document.createElement('div');
+
+        messageDiv.classList.add(sender === 'user' ? 'user-message' : 'chatbot-message');
+        messageDiv.textContent = message;
+
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    document.getElementById('send-message').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+    document.getElementById('close-chatbot').addEventListener('click', () => {
+        toggleChatbot();
+    });
+    // Hàm kiểm tra vị trí cuộn trang và thêm class "visible" cho các phần tử
+    function checkScroll() {
+        const footerGrids = document.querySelectorAll('.footer_grid');
+
+        footerGrids.forEach(grid => {
+            const rect = grid.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                grid.classList.add('visible');
+            }
+        });
+    }
+
+    // Gọi hàm checkScroll mỗi khi người dùng cuộn trang
+    window.addEventListener('scroll', checkScroll);
+
+    // Kiểm tra trạng thái khi tải trang lần đầu
+    document.addEventListener('DOMContentLoaded', checkScroll);
+
+</script>

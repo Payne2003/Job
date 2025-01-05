@@ -1,0 +1,87 @@
+﻿@* 
+@{
+    ViewData["Title"] = "UpLoadCv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model C___MVC.Models.CandidateCV
+<div class="inner_page_agile">
+	<h3>Upload CV</h3>
+	<p>Add Some Short Description</p>
+
+</div>
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls="">
+			<li><a href="index.html">Home</a><span>|</span></li>
+			<li>UpLoad CV</li>
+		</ul>
+	</div>
+</div>
+<div class="inner_content_info_agileits">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">Contact Us</h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="inner_sec_grids_info login-form">
+                <button onclick="openModal(); return false;" value="Submit Cv">UpLoad</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal Structure -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal();">&times;</span>
+        <div class="candidate_cv">
+            <div class="tittle_head_w3ls">
+                <h3 class="tittle two">Candidate Cv</h3>
+            </div>
+            <div class="inner_sec_grids_info login-form">
+                <form action="/CandidateCV/UpLoadCv" method="post" enctype="multipart/form-data">
+                    <div class="form-inputs upload">
+                        <p>Upload Your Cv</p>
+                        <input type="file" id="fileselect" name="Cv" required onchange="showFileName()" />
+                        <div id="filedrag">Upload</div>
+                        <!-- Nơi để hiện tên file -->
+                        <p id="file-name" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+                    
+                    <input type="submit" value="Submit Cv">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mở modal
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    // Đóng modal
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    // Đóng modal khi nhấn ra ngoài modal
+    window.onclick = function (event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function showFileName() {
+        // Lấy đối tượng input file
+        var input = document.getElementById('fileselect');
+        // Lấy tên file
+        var fileName = input.files[0].name;
+        // Hiển thị tên file vào phần tử có id là "file-name"
+        document.getElementById('file-name').textContent = "File Selected: " + fileName;
+    }
+
+</script>
+ *@

@@ -1,0 +1,291 @@
+﻿
+.chatbot-container {
+    position: fixed;
+    bottom: 90px; 
+    right: 20px;
+    z-index: 1001; 
+    width: 290px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    height: 350px;
+    font-family: Arial, sans-serif;
+}
+
+
+.chatbot-header {
+    background-color: #00b14f;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: sticky; 
+    top: 0;
+    z-index: 1002;
+}
+
+
+.close-chatbot {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none; 
+}
+
+
+.chatbot-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+
+.chatbot-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    max-height: calc(100% - 60px);
+}
+
+
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ccc;
+}
+
+
+.user-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    outline: none;
+}
+
+
+.send-message {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #00b14f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#send-message {
+    background: none; /* Loại bỏ màu nền của nút */
+    border: none; /* Xóa viền nút */
+    padding: 0; /* Loại bỏ khoảng cách thừa */
+    margin: 0; /* Loại bỏ khoảng cách thừa */
+    cursor: pointer; /* Đổi con trỏ chuột thành dạng click */
+}
+
+    #send-message img {
+        display: block; /* Đảm bảo hình ảnh không bị khoảng cách thừa */
+    }
+.chatbot-image {
+    width: auto;
+    height: 30px;
+}
+#chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    background-color: #00b14f;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    animation: shake 2s infinite;
+}
+
+.chatbot-container.show {
+    display: flex; 
+}
+
+@media (max-width: 768px) {
+    .chatbot-container {
+        width: 250px;
+    }
+
+    #chatbot-icon {
+        width: 60px;
+        height: 60px;
+    }
+}
+#typing-indicator {
+    font-style: italic;
+    color: gray;
+    opacity: 0.6;
+}
+
+    #typing-indicator span {
+        display: inline-block; /* Ensure each dot is a block-level element */
+        animation: wave-effect 1.5s infinite ease-in-out;
+        margin: 0 0.2px;
+        position: relative; /* Allow positioning for background */
+        padding: 0 2px; /* Add some space around the dot */
+    }
+
+        #typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        #typing-indicator span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        #typing-indicator span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+@keyframes wave-effect {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    75% {
+        transform: translateY(-5px);
+    }
+}
+
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+
+.user-message {
+    background-color: #00b14f; /* Màu nền */
+    color: white; /* Màu chữ */
+    text-align: right; /* Văn bản căn về bên phải */
+    align-self: flex-start;
+    padding: 4px 8px; /* Giảm padding để nội dung sát hơn */
+    border-radius: 12px; /* Bo góc */
+    margin: 0; /* Xóa khoảng cách bên ngoài */
+    max-width: 80%; /* Giới hạn chiều rộng tối đa */
+    align-self: flex-end; /* Đẩy toàn bộ hộp sang mép phải */
+    display: inline-block; /* Đảm bảo hộp chỉ bao quanh nội dung */
+    word-wrap: break-word; /* Ngắt từ nếu nội dung dài */
+    box-sizing: border-box; /* Bao gồm padding trong kích thước hộp */
+}
+
+/* Ẩn các phần tử khi mới tải trang */
+.footer_grid {
+    opacity: 0;
+    transform: translateX(-100%); /* Di chuyển ra ngoài từ bên trái */
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+    /* Khi phần tử xuất hiện trên trang (sau khi cuộn đến) */
+    .footer_grid.visible {
+        opacity: 1;
+        transform: translateX(0); /* Quay lại vị trí ban đầu */
+    }
+
+.chatbot-message {
+    background-color: #f1f1f1;
+    align-self: flex-start; 
+    text-align: left;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    animation: slideInLeft 0.3s ease-in-out;
+}

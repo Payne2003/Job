@@ -1,0 +1,324 @@
+﻿@using X.PagedList
+@model X.PagedList.IPagedList<Recruiter>
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>.job_link {
+    display: flex;
+    justify-content: center; /* Căn giữa các thẻ a */
+    gap: 20px; /* Khoảng cách giữa các thẻ a */
+}
+
+.job_link a {
+    font-size: 24px; /* Kích thước của icon */
+    color: #000; /* Màu của biểu tượng, có thể thay đổi tùy ý */
+    text-decoration: none;
+}
+     .card {
+         margin-bottom: 1%;
+         margin-top: 1%;
+         overflow-x: auto; /* Thêm thanh cuộn ngang nếu nội dung quá rộng */
+         overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+     }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<div class="template-demo">
+    <a asp-action="Create" type="button" class="btn btn-outline-success btn-fw">Create New</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Avatar)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UserName)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Company)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Gender)</th> 
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().countryside)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Currentjob)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td onclick="showRecruiterDetails(@item.RecruiterId)">
+                            <img src="~/images/@item.Avatar" alt="Avatar" style="width: 50px; height: auto;" class="img-click" data-bs-toggle="modal" data-bs-target="#recruiterModal" />
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Gender)</td>
+                        <td>@Html.DisplayFor(modelItem => item.countryside)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Currentjob)</td>
+                        <td>
+                            <div class="template-demo">
+                                <button type="button"
+                                        class="btn btn-outline-danger btn-fw"
+                                        onclick="deleteRecruiter(@item.RecruiterId)">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<div class="btn-group" role="group" aria-label="Basic example">
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+        <button type="button" class="btn btn-outline-secondary">
+            @Html.ActionLink(i.ToString(), "Index", new { page = i })
+        </button>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="recruiterModal" tabindex="-1" aria-labelledby="recruiterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recruiterModalLabel">Recruiter Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalImage" style="text-align: center; margin-bottom: 20px;">
+                    <!-- Ảnh sẽ được hiển thị ở đây -->
+                </div>
+                <dl class="row">
+                    <dt class="col-sm-3">Name:</dt>
+                    <dd class="col-sm-9" id="modalName"></dd>
+
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9" id="modalEmail"></dd>
+
+                    <dt class="col-sm-3">Phone Number:</dt>
+                    <dd class="col-sm-9" id="modalPhoneNumber"></dd>
+
+                    <dt class="col-sm-3">Company:</dt>
+                    <dd class="col-sm-9" id="modalCompany"></dd>
+
+                    <dt class="col-sm-3">Gender:</dt>
+                    <dd class="col-sm-9" id="modalGender"></dd>
+
+                    <dt class="col-sm-3">Countryside:</dt>
+                    <dd class="col-sm-9" id="modalCountryside"></dd>
+
+                    <dt class="col-sm-3">Current Job:</dt>
+                    <dd class="col-sm-9" id="modalCurrentJob"></dd>
+
+                    <dt class="col-sm-3">Created At:</dt>
+                    <dd class="col-sm-9" id="modalCreatedAt"></dd>
+
+                    <dt class="col-sm-3">Updated At:</dt>
+                    <dd class="col-sm-9" id="modalUpdatedAt"></dd>
+                </dl>
+                <div><strong id="nameSkill"></strong></div>
+                <div id="modalSkills"></div> <!-- Phần hiển thị kỹ năng -->
+            </div>
+            <div class="job_link" id="modalLink">
+                <!-- Liên kết sẽ được hiển thị ở đây -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+      function showRecruiterDetails(id) {
+        $.ajax({
+            url: '/Recruiter/GetRecruiterDetails',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(id),
+            success: function(recruiter) {
+                console.log(recruiter); // Kiểm tra dữ liệu nhận được
+
+                // Hiển thị hình ảnh avatar
+                $('#modalImage').html(`<img src="/images/${recruiter.avatar}" alt="Avatar" style="width: 150px; height: auto;" />`);
+
+                // Cập nhật  thông tin cá nhân
+                $('#modalName').text(recruiter.userName);
+                $('#modalEmail').text(recruiter.email);
+                $('#modalPhoneNumber').text(recruiter.phoneNumber);
+                $('#modalCompany').text(recruiter.company);
+                $('#modalCreatedAt').text(new Date(recruiter.createdAt).toLocaleString());
+                $('#modalUpdatedAt').text(new Date(recruiter.updatedAt).toLocaleString());
+
+                // Cập nhật thông tin bổ sung
+                $('#modalGender').text(recruiter.gender);
+                $('#modalCountryside').text(recruiter.countryside);
+                $('#modalCurrentJob').text(recruiter.currentJob);
+              // Hiển thị danh sách kỹ năng
+            var skillsHtml = '';
+            if (recruiter.skills.length > 0) {
+                $('#nameSkill').text(' (' + recruiter.skills.length + ' skills)');
+                skillsHtml += '<ul>'; // Bắt đầu danh sách
+                recruiter.skills.forEach(function(skill) {
+                    skillsHtml += '<li>' + skill.name + ': ' + skill.description + '</li>';
+                });
+                skillsHtml += '</ul>'; // Kết thúc danh sách
+            } else {
+                $('#nameSkill').text(' (No skills)');
+            }
+            $('#modalSkills').html(skillsHtml);
+
+            // Cập nhật nút sửa
+            $('#editButton').data('id', recruiter.recruiterId);
+            $('#editButton').off('click').on('click', function () {
+                window.location.href = `/Recruiter/Edit/${recruiter.recruiterId}`;
+            });
+
+            // Hiển thị liên kết
+            let linkHtml = '';
+           recruiter.links.forEach(function (link) {
+                let iconClass, title;
+
+                switch (link.name) {
+                    case 'Google Maps':
+                        iconClass = 'bi bi-geo-alt';
+                        title = 'View on Google Maps';
+                            break;
+                    case 'Facebook':
+                        iconClass = 'bi bi-facebook';
+                        title = 'View on Facebook';
+                        break;
+                    case 'YouTube':
+                        iconClass = 'bi bi-youtube';
+                        title = 'View on YouTube';
+                        break;
+                    case 'Instagram':
+                        iconClass = 'bi bi-instagram';
+                        title = 'View on Instagram';
+                        break;
+                    default:
+                        iconClass = 'bi bi-link-45deg';
+                        title = 'View link';
+                        break;
+                }
+
+                // Tạo HTML cho liên kết
+                linkHtml += `<a href="${link.description}" class="me-2" target="_blank" title="${title}"><i class="${iconClass}"></i></a>`;
+            });
+
+            $('#modalLink').html(linkHtml);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+            alert('Failed to load recruiter details.');
+            }
+        });
+    }
+
+ function confirmAction(message, yesCallback, noCallback) {
+        // Tạo hộp xác nhận
+        const confirmBox = document.createElement("div");
+        confirmBox.setAttribute("style", `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        `);
+
+        // Tạo thông điệp
+        const messageNode = document.createElement("p");
+        messageNode.innerText = message;
+        confirmBox.appendChild(messageNode);
+
+        // Tạo nút "Yes"
+        const yesButton = document.createElement("button");
+        yesButton.innerText = "Yes";
+        yesButton.setAttribute("style", `
+            margin-right: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        `);
+        yesButton.onmouseover = function () {
+            yesButton.style.backgroundColor = "#218838";
+        };
+        yesButton.onmouseout = function () {
+            yesButton.style.backgroundColor = "#28a745";
+        };
+        yesButton.onclick = function () {
+            yesCallback();
+            document.body.removeChild(confirmBox);
+        };
+        confirmBox.appendChild(yesButton);
+
+        // Tạo nút "No"
+        const noButton = document.createElement("button");
+        noButton.innerText = "No";
+        noButton.setAttribute("style", `
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        `);
+        noButton.onmouseover = function () {
+            noButton.style.backgroundColor = "#c82333";
+        };
+        noButton.onmouseout = function () {
+            noButton.style.backgroundColor = "#dc3545";
+        };
+        noButton.onclick = function () {
+            noCallback();
+            document.body.removeChild(confirmBox);
+        };
+        confirmBox.appendChild(noButton);
+
+        // Thêm hộp xác nhận vào body
+        document.body.appendChild(confirmBox);
+    }
+    function deleteRecruiter(id) {
+        confirmAction("Are you sure you want to delete this recruiter ?", function () {
+            $.ajax({
+                url: '/Recruiter/Delete',
+                type: 'POST',
+                data: { id: id },
+                success: function (response) {
+                    if (response.success) {
+                        // Chuyển hướng hoặc cập nhật giao diện người dùng nếu thành công
+                        window.location.reload(); // Tải lại trang để cập nhật danh sách công việc
+                    } else {
+                        // Nếu không xóa được, có thể hiển thị thông báo lỗi hoặc không làm gì
+                        console.log("Deletion failed.");
+                    }
+                },
+                error: function () {
+                    // Xử lý khi có lỗi
+                    console.log("An error occurred while deleting.");
+                }
+            });
+        }, function () {
+            // Nếu người dùng hủy thao tác, không làm gì
+            console.log("Deletion canceled.");
+        });
+    }
+</script>

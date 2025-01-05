@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Category>
+<ul class="nav">
+
+@foreach (var job in Model)  // Nhóm theo Title và chỉ lấy công việc đầu tiên
+{
+    <li>
+        <a class="id_category" id="@job.CategoryId">
+            @job.Name 
+        </a>
+    </li>
+}

@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model List<string>
+<div class="inner_page_agile">
+    <h3>CV Templates</h3>
+    <p>Chosse a template</p>
+</div>
+
+<div class="services-breadcrumb_w3layouts">
+    <div class="inner_breadcrumb">
+        <ul class="short_w3ls">
+            <li><a href="index.html">Home</a><span>|</span></li>
+            <li>CV Templates</li>
+        </ul>
+    </div>
+</div>
+<div class="inner_content_info_agileits">
+    <div class="container">
+        <div class="tittle_head_w3ls">
+            <h3 class="tittle">Available CV </h3>
+        </div>
+        <div class="inner_sec_grids_info_w3ls">
+            <div class="col-md-8 job_info_left">
+                <div class="but_list">
+                    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Featured Templates</a></li>
+                            <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">All Templates</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+                                <div class="row">
+                                    @foreach (var template in Model)
+                                    {
+                                        <div class="col-md-6 mb-3">
+                                            <div class="tab_grid">
+                                                <div class="col-sm-4 loc_1">
+                                                    <!-- Trỏ đến CreateCV với templateName -->
+                                                    <a href="@Url.Action("CreateCV", "Template", new { templateName = template })">
+                                                        <img src="~/images/loc5.jpg" alt="" class="img-thumbnail">
+                                                    </a>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 job_info_right">
+                <div class="widget_search">
+                    <h5 class="widget-title">Search</h5>
+                    <div class="widget-content">
+                        <span>I'm looking for a ...</span>
+                        <select id="category" class="form-control jb_1">
+                            @await Component.InvokeAsync("FindCategory")
+                        </select>
+                        <span>in</span>
+                        <select id="location" onchange="change_country(this.value)" class="form-control jb_1">
+                            <option value="" disabled selected>Select Location</option> <!-- Placeholder option -->
+                            @await Component.InvokeAsync("Location")
+                        </select>
+                        <input id="btn-categoryandlocation" type="submit" value="Search">
+                    </div>
+                </div>
+                <div class="col_3 permit">
+                    <h3>Jobs by Category</h3>
+                    <ul class="list_2">
+                        @await Component.InvokeAsync("JobByCategory")
+                    </ul>
+                </div>
+                <div class="col_3 experience">
+                    <h3>Skills</h3>
+                    @await Component.InvokeAsync("SkillsByJob")
+                    <input id="filter-form" type="submit" value="Search">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

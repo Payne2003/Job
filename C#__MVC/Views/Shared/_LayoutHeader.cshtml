@@ -1,0 +1,149 @@
+﻿<div class="header" id="home">
+	<div class="content white agile-info">
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+                    <a class="navbar-brand logo-left" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/LogoJobb.png" alt="Logo" />
+                    </a>
+
+				</div>
+                <!--/.navbar-header-->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <nav class="link-effect-2" id="link-effect-2">
+                        <ul class="nav navbar-nav navbar-left">
+                            <!-- Menu bên trái cố định -->
+                            <li class="active"><a asp-action="Index" asp-controller="Home" class="effect-3">Home</a></li>
+                            <li class="dropdown">
+                                <a asp-action="Index" asp-controller="Cv" class="dropdown-toggle effect-3 profile_candidate" data-toggle="dropdown" style="display: none;" aria-expanded="false">Resume & Cv<b class="caret"></b></a>
+                                <ul class="nav dropdown-menu multi-column columns-2">
+                                    <li class="nav-item"><a asp-action="Index" asp-controller="Cv" class="nav-link">Create CV</a></li>
+                                    @* <li class="divider"></li> *@
+                                    <li class="nav-item"><a class="nav-link" asp-action="GetCandidateCVs" asp-controller="Cv">CV Management</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a asp-action="Index" asp-controller="Job" class="dropdown-toggle effect-3 job_manager" data-toggle="dropdown">Jobs<b class="caret"></b></a>
+                                <ul class=" nav dropdown-menu multi-column columns-2">
+                                    @await Component.InvokeAsync("Category")
+                                </ul>
+                            </li>
+                            <li><a asp-action="Index" asp-controller="Event" class="effect-3">Events</a></li>
+                            <li><a asp-action="Index" asp-controller="Candidates" class="effect-3 professional" style="display: none;">Professionals</a></li>
+                            <li><a asp-action="Index" asp-controller="Contact" class="effect-3">Contact</a></li>
+                        </ul>
+
+                        <!-- Menu bên phải cố định -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="recruiter-column">
+                                <span class="effect-3">You are the Recruiter?</span>
+                                <a asp-action="CheckRecruiter" asp-controller="Auth" class="effect-3">Post job now</a>
+
+                            </li>
+                            <li class="wrap_login">
+                            <li id="btn-login" class="in_login">
+                                <a asp-action="Login" asp-controller="Auth" class="effect-3">
+                                    <i class="fas fa-user"></i> <!-- Biểu tượng người dùng -->
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+				<!--/.navbar-collapse-->
+				<!--/.navbar-->
+			</div>
+		</nav>
+	</div>
+</div>
+<style>
+    /* Căn chỉnh menu bên trái */
+    .navbar-left {
+        margin-top: 15px !important;
+    float: left !important; /* Căn sang trái */
+        margin-left: 60px !important;
+    }
+
+    /* Căn chỉnh menu bên phải */
+    .navbar-right {
+    float: right; /* Căn sang phải */
+    }
+
+    .navbar-right li span {
+        color: white;
+        font-size: 15px;
+        opacity: 0.8;
+    }
+    /* Tùy chỉnh nút login */
+    #btn-login a i {
+     margin-top: 7px;
+    font-size: 30px; /* Kích thước biểu tượng */
+    color: #000;     /* Màu sắc */
+    padding: 5px;
+    transition: color 0.3s ease;
+    }
+
+    /* Hiệu ứng hover */
+    #btn-login a i:hover {
+            color: #3DFF04;
+    }
+    /* Đưa logo sát mép trái */
+    .logo-left {
+        position: absolute; /* Ensure absolute positioning */
+        top: 0; /* Align logo to the top of the navbar */
+        left: 0; /* Align logo flush with the left edge */
+        padding-left: 0; /* Remove any padding from the container */
+        margin: 0; /* Remove any margin around the logo */
+        z-index: 10; /* Ensure it sits above other elements */
+    }
+
+/* Điều chỉnh kích thước hình ảnh */
+.logo-left img {
+            height: 93px;
+            width: 150px;
+            object-fit: cover;
+            margin-top: -21px; /* Đảm bảo hình ảnh không bị méo */
+}
+    /* Định nghĩa cột dọc */
+    .recruiter-column {
+        font-size: 18px;
+        display: flex; /* Sử dụng flexbox */
+        flex-direction: column; /* Đặt các phần tử con theo hướng cột */
+        align-items: flex-end; /* Căn phải các phần tử (nếu cần) */
+        margin-left: auto; /* Đẩy cột sang bên phải */
+        margin-right: 0;
+    }
+
+        .recruiter-column a {
+            margin: 0; /* Khoảng cách giữa các dòng */
+            text-align: left; /* Căn phải nội dung liên kết */
+        }
+
+    
+
+   
+
+</style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentPath = window.location.pathname.toLowerCase();
+        const navLinks = document.querySelectorAll(".navbar-nav>li>a");
+
+        navLinks.forEach(link => {
+            const linkPath = new URL(link.href).pathname.toLowerCase();
+            if (currentPath === linkPath) {
+                link.parentElement.classList.add("active");
+                link.style.color = "#3DFF04"; 
+            }
+        });
+    });
+
+    </script>

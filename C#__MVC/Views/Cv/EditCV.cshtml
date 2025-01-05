@@ -1,0 +1,491 @@
+﻿@model C___MVC.Dto.CvDto
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" media="print" onload="this.media='all'" />
+<noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" />
+</noscript>
+<link href="/templates/right-resume_free_1-2-0//css/font-awesome/../right-resume_free_1-2-0/css/all.min.css?ver=1.2.0" rel="stylesheet">
+<link href="/templates/right-resume_free_1-2-0//css/bootstrap.css" rel="stylesheet">
+<link href="/templates/right-resume_free_1-2-0//css/aos.css" rel="stylesheet">
+<link href="/templates/right-resume_free_1-2-0//css/main.css" rel="stylesheet">
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<div class="create-cv">
+<div class="header-create">
+    <div class="row" style="
+             width: 100%;">
+        <div class="col-md-12" style="display: inline-grid;">
+
+            <div class="tool-section-bottom">
+                <div class="language-selector">
+                    <label for="languageSelect">Select Language:</label>
+                    <select id="languageSelect" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="vi">Vietnamese</option>
+                    </select>
+                </div>
+                <label for="fontSelector">Phông chữ: </label>
+                <select id="fontSelector" class="tool-input" onchange="changeFont()">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Open Sans', sans-serif">Open Sans</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Raleway', sans-serif">Raleway</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Merriweather', serif">Merriweather</option>
+                    <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                    <option value="'Nunito', sans-serif">Nunito</option>
+                    <option value="'Droid Sans', sans-serif">Droid Sans</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Playfair Display', serif">Playfair Display</option>
+                </select>
+                <label for="fontSize">Cỡ chữ: </label>
+                <input type="number" id="fontSize" class="tool-input" value="14" onchange="changeFontSize()">
+                <label for="lineHeight">Khoảng cách dòng: </label>
+                <input type="number" id="lineHeight" class="tool-input" value="1.5" step="0.1" onchange="changeLineHeight()">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content">
+    <div class="container" id="cvPreview" style="padding: 50px 10px;">
+        <div class="page-content">
+            <div class="container">
+                <div class="page-content">
+                    <div class="container">
+    <form asp-action="EditCV" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="CvId" />
+    <div class="cover shadow-lg bg-white">
+        <!-- Ảnh đại diện và thông tin chung -->
+        <div class="cover-bg p-3 p-lg-4 text-white">
+            <div class="row">
+                <div class="col-lg-4 col-md-5">
+                    <div class="avatar hover-effect bg-white shadow-sm p-1">
+                            <img id="imagePreview" src="~/cv/@Model.ProfilePicture1" class="job-image" alt="Profile Picture">
+                            <input type="file" asp-for="ProfilePicture" id="avatarUpload" style="display: none;" />
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 text-center text-md-start">
+                    <!-- Nhập Tên -->
+                    <div class="form-group mb-3">
+                        <input asp-for="Name" class="form-control" placeholder="Enter Your Name CV" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <!-- Full Name -->
+                    <div class="form-group mb-3">
+                        <input asp-for="FullName" class="form-control" placeholder="Enter Your Full Name" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <!-- Address -->
+                    <div class="form-group mb-3">
+                        <input asp-for="Address" class="form-control" placeholder="Enter Your Address" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="Enter Your Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <!-- Phone Number -->
+                    <div class="form-group mb-3">
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Your Phone Number" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Giới thiệu bản thân -->
+        <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="h3 mb-3">About Me</h2>
+                    <textarea asp-for="BusinessCard" class="form-control" rows="5" placeholder="Enter Your Business Card"></textarea>
+                    <span asp-validation-for="BusinessCard" class="text-danger"></span>
+                </div>
+                <div class="col-md-5 offset-md-1">
+                    <div class="form-group">
+                        <label>Career Objective</label>
+                        <textarea asp-for="CareerObjective" class="form-control" rows="3" placeholder="Enter Your Career Objective"></textarea>
+                        <span asp-validation-for="CareerObjective" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kinh nghiệm làm việc -->
+        <div class="skills-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Experience</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <input asp-for="WorkExperience_CompanyName" class="form-control mb-3" placeholder="Enter Your Company" />
+                    <input asp-for="WorkExperience_Position" class="form-control mb-3" placeholder="Enter Your Position" />
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="WorkExperience_StartDate" type="date" class="form-control mb-3" />
+                    <input asp-for="WorkExperience_EndDate" type="date" class="form-control mb-3" />
+                </div>
+                <div class="col-md-12">
+                    <textarea asp-for="WorkExperience_Description" class="form-control mb-3" rows="4" placeholder="Enter Description of Your Work"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Học vấn -->
+        <div class="education-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Education</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <input asp-for="Education_SchoolName" class="form-control mb-3" placeholder="Enter Your School Name" />
+                    <input asp-for="Education_Degree" class="form-control mb-3" placeholder="Enter Your Degree" />
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="Education_StartDate" type="date" class="form-control mb-3" />
+                    <input asp-for="Education_EndDate" type="date" class="form-control mb-3" />
+                </div>
+                <div class="col-md-12">
+                    <input asp-for="Education_Major" class="form-control mb-3" placeholder="Enter Your Major" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Kỹ năng -->
+        <div class="skills-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Skills</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <input asp-for="SkillsName" class="form-control mb-3" placeholder="Skill Name" />
+                    <input asp-for="Skills" class="form-control mb-3" placeholder="Skill Level (0-100)" min="0" max="100" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Dự án -->
+        <div class="skills-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Projects</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <input asp-for="Project_ProjectName" class="form-control mb-3" placeholder="Project Name" />
+                    <textarea asp-for="Project_Description" class="form-control mb-3" rows="3" placeholder="Project Description"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="Project_Role" class="form-control mb-3" placeholder="Role in Project" />
+                    <input asp-for="Project_StartDate" type="date" class="form-control mb-3" />
+                    <input asp-for="Project_EndDate" type="date" class="form-control mb-3" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Hoạt động -->
+        <div class="skills-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Activities</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <input asp-for="Activity_ActivityName" class="form-control mb-3" placeholder="Activity Name" />
+                    <textarea asp-for="Activity_Description" class="form-control mb-3" rows="3" placeholder="Activity Description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sở thích -->
+        <div class="education-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Hobbies</h2>
+            <input asp-for="Hobbies" class="form-control mb-3" placeholder="Your Hobbies" />
+        </div>
+
+        <!-- Người tham chiếu -->
+        <div class="education-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">References</h2>
+            <input asp-for="Reference_Name" class="form-control mb-3" placeholder="Reference Name" />
+            <input asp-for="Reference_Position" class="form-control mb-3" placeholder="Reference Position" />
+            <input asp-for="Reference_Company" class="form-control mb-3" placeholder="Reference Company" />
+            <input asp-for="Reference_ContactInfo" class="form-control mb-3" placeholder="Reference Contact Info" />
+        </div>
+
+        <!-- Giải thưởng -->
+        <div class="education-section px-3 px-lg-4">
+            <h2 class="h3 mb-3">Awards</h2>
+            <input asp-for="Award_AwardName" class="form-control mb-3" placeholder="Award Name" />
+            <input asp-for="Award_Date" type="date" class="form-control mb-3" />
+        </div>
+    </div>
+
+    <div class="tool-section-top">
+        <ul class="nav" style="display:flex;">
+            <li class="nav-item" style="padding: 2% 2%;">
+                <button type="submit" class="btn btn-primary">Save and Download</button>
+            </li>
+        </ul>
+    </div>
+</form>
+</div>
+                </div>
+            </div>
+</div>
+        </div>
+    </div>
+<style>
+            .avatar {
+                position: relative;
+                width: 200px; /* Đặt kích thước của thẻ div */
+                height: 200px;
+                border-radius: 50%; /* Bo tròn thẻ div */
+                overflow: hidden; /* Ẩn phần ảnh ngoài vùng hình tròn */
+                background-color: #fff; /* Màu nền cho thẻ div */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer; /* Thêm hiệu ứng con trỏ chuột */
+            }
+
+                .avatar img {
+                    width: 100%; /* Đảm bảo ảnh chiếm hết chiều rộng của thẻ div */
+                    height: 100%; /* Đảm bảo ảnh chiếm hết chiều cao của thẻ div */
+                    object-fit: cover; /* Giữ tỷ lệ ảnh và làm vừa khít trong hình tròn */
+                    border-radius: 50%; /* Bo tròn ảnh */
+                }
+
+            .hover-effect:hover {
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng bóng đổ khi hover */
+            }
+
+            .file-name-display {
+                width: 100%; /* Đặt trường văn bản cũng chiếm toàn bộ chiều rộng */
+            }
+    /* Header chứa thanh công cụ */
+    .header-create {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        display: flex;
+        position: fixed;
+        z-index: 100;
+        overflow-x: auto; /* Thêm thanh cuộn ngang */
+    }
+
+    /* Đảm bảo khoảng cách cho phần tạo CV */
+    .create-cv {
+        margin-top: 42px; /* Cách từ trên xuống 80px */
+    }
+
+    .cv-preview {
+        background-color: #fff;
+        padding: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .form-container {
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .btn-submit {
+        width: 100%;
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px;
+        color: white;
+        border: none;
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .add-more-btn {
+        margin-top: 10px;
+    }
+
+    .tool-section-top {
+        display: inline-flex;
+    }
+    /* CSS cho tool-section-bottom */
+    .tool-section-bottom {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ trên */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Đường gạch mờ dưới */
+        padding: 10px 0;
+    }
+
+        /* CSS cho các nút và phần tử trong tool-section-bottom */
+        .tool-section-bottom .tool-item {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+        }
+
+            .tool-section-bottom .tool-item:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                height: 70%; /* Chiều cao của gạch thẳng */
+                width: 1px;
+                background-color: rgba(0, 0, 0, 0.1); /* Gạch thẳng mờ giữa các mục */
+            }
+
+        /* Tạo khoảng cách giữa các chức năng và đường gạch */
+        .tool-section-bottom label,
+        .tool-section-bottom select,
+        .tool-section-bottom input {
+            margin: 0 10px;
+        }
+
+    .tool-section label {
+        margin-right: 5px;
+    }
+
+    .tool-input {
+        margin-right: 10px;
+        width: auto;
+    }
+
+    /* Đảm bảo CSS cho nút và input trong tool section */
+    .tool-item {
+        margin-left: 10px;
+    }
+
+    .personal-info {
+        display: flex; /* Sử dụng flexbox để sắp xếp ảnh và thông tin */
+    }
+
+    .avatar-container {
+        margin-right: 20px; /* Khoảng cách giữa ảnh và thông tin */
+        display: flex;
+        flex-direction: column; /* Đặt các phần tử theo chiều dọc */
+        align-items: center; /* Căn giữa ảnh */
+    }
+
+        .avatar-container img {
+            cursor: pointer; /* Thay đổi con trỏ khi di chuột qua ảnh */
+        }
+
+    .add-guideline {
+        margin-top: 15px;
+    }
+
+    .guideline-list {
+        list-style: none; /* Bỏ dấu chấm trước các mục */
+        padding: 0; /* Xóa padding */
+    }
+
+        .guideline-list li {
+            background: #f9f9f9; /* Màu nền cho mỗi mục */
+            border: 1px solid #ddd; /* Đường viền cho mỗi mục */
+            border-radius: 5px; /* Bo góc */
+            padding: 10px; /* Padding bên trong */
+            margin-bottom: 10px; /* Khoảng cách giữa các mục */
+            display: flex; /* Để biểu tượng và văn bản nằm ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+        }
+
+            .guideline-list li i {
+                margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+                color: #007bff; /* Màu biểu tượng */
+                font-size: 20px; /* Kích thước biểu tượng */
+            }
+
+            .guideline-list li:hover {
+                background: #e9ecef; /* Màu nền khi di chuột */
+                transition: background 0.3s; /* Hiệu ứng chuyển màu mượt mà */
+            }
+
+    .btn-primary {
+        margin-top: 15px; /* Khoảng cách trên nút thêm mục mới */
+    }
+</style>
+<style type="text/css">
+    .profile-picture {
+        position: relative;
+        width: 150px; /* Đặt kích thước thẻ label */
+        height: 150px;
+        border-radius: 50%; /* Làm cho thẻ label thành hình tròn */
+        overflow: hidden; /* Ẩn phần ảnh ngoài vùng tròn */
+        background-color: #ccc; /* Màu nền cho thẻ label */
+    }
+
+        .profile-picture img {
+            width: 100%; /* Đảm bảo ảnh chiếm hết chiều rộng */
+            height: 100%; /* Đảm bảo ảnh chiếm hết chiều cao */
+            object-fit: cover; /* Giữ tỷ lệ ảnh và làm vừa khít hình tròn */
+        }
+
+</style>
+<script>
+    // Thay đổi phông chữ
+    function changeFont() {
+        var font = document.getElementById('fontSelector').value;
+        document.getElementById('cvPreview').style.fontFamily = font;
+    }
+
+    // Thay đổi cỡ chữ
+    function changeFontSize() {
+        var fontSize = document.getElementById('fontSize').value + 'px';
+        document.getElementById('cvPreview').style.fontSize = fontSize;
+    }
+    // Thay đổi khoảng cách dòng
+    function changeLineHeight() {
+        var lineHeight = document.getElementById('lineHeight').value;
+        document.getElementById('cvPreview').style.lineHeight = lineHeight;
+    }
+
+
+    document.getElementById('profilePicture').addEventListener('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('profileImage').src = e.target.result; // Cập nhật ảnh
+        }
+        reader.readAsDataURL(this.files[0]); // Đọc ảnh
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Trigger file input when clicking on the image
+        $("#imagePreview").on("click", function () {
+            $("#avatarUpload").click();
+        });
+
+        // Show the selected file name and preview the image
+        $("#avatarUpload").on("change", function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imagePreview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+
+            }
+
+            // Trigger the upload when file is selected
+            uploadImage(file);
+        });
+
+        // Function to upload image using AJAX
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append("Image", file);
+
+            $.ajax({
+                url: '/Template/UploadImage',  // Update with the actual controller and action
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+            });
+        }
+    });
+
+</script>

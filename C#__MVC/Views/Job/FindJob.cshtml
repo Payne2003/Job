@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "FindJob";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using X.PagedList
+@model X.PagedList.IPagedList<Job>
+<div class="inner_page_agile">
+	<h3>Jobs</h3>
+
+</div>
+<div class="services-breadcrumb_w3layouts">
+	<div class="inner_breadcrumb">
+
+		<ul class="short_w3ls" _w3ls="">
+			<li><a href="index.html">Home</a><span>|</span></li>
+			<li>Jobs</li>
+		</ul>
+	</div>
+</div>
+<div class="inner_content_info_agileits">
+	<div class="container">
+		<div class="tittle_head_w3ls">
+			<h3 class="tittle">Available Jobs </h3>
+		</div>
+		<div class="inner_sec_grids_info_w3ls">
+			<div class="col-md-8 job_info_left">
+				<div class="but_list">
+					<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+						
+						<div id="myTabContent" class="tab-content">
+							<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
+								<div class="row">
+									@await Html.PartialAsync("JobByCategory")
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 job_info_right">
+			<div class="widget_search">
+				<h5 class="widget-title">Search</h5>
+				<div class="widget-content">
+					<span>I'm looking for a ...</span>
+					<select id="category" class="form-control jb_1">
+						@await Component.InvokeAsync("FindCategory")
+					</select>
+					<span>in</span>
+					<select id="location" onchange="change_country(this.value)" class="form-control jb_1">
+						<option value="" disabled selected>Select Location</option> <!-- Placeholder option -->
+						@await Component.InvokeAsync("Location")
+					</select>
+					<input id="btn-categoryandlocation" type="submit" value="Search">
+				</div>
+			</div>
+			<div class="col_3 permit">
+				<h3>Jobs by Category</h3>
+				<ul class="list_2">
+					@await Component.InvokeAsync("JobByCategory")
+				</ul>
+			</div>
+			@* <div class="col_3 experience">
+				<h3>Skills</h3>
+				@await Component.InvokeAsync("SkillsByJob")
+				<input id="filter-form" type="submit" value="Search">
+			</div> *@
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+@section Scripts {
+	<script>
+		$('.id_category').click(function (e) {
+
+			var id = $(this).attr("id");
+
+			$.ajax({
+				url: "/Job/JobByCategory",
+				data: { id: id },
+				success: function (response) {
+					$("div#myTabContent").html(response, id);
+				}
+			});
+		});
+		$(document).ready(function () {
+			// Bắt sự kiện submit của form có id #filter-form
+			$('#filter-form').click(function (e) {
+				e.preventDefault(); // Ngăn form reload trang
+
+				// Thu thập danh sách skillIds đã chọn
+				var skillIds = [];
+				$('input[name="skillIds"]:checked').each(function () {
+					skillIds.push($(this).val());
+				});
+
+				// Gửi request Ajax tới server
+				$.ajax({
+					url: '@Url.Action("FilterBySkills", "Job")', // Địa chỉ action FilterBySkills
+					type: 'POST', // Phương thức POST
+					data: { skillIds: skillIds }, // Dữ liệu gửi lên server
+					success: function (result) {
+						// Đưa kết quả (danh sách công việc) vào div #myTabContent
+						$('div#myTabContent').html(result);
+					},
+					error: function (xhr, status, error) {
+						// Hiển thị thông báo lỗi nếu có
+						alert('An error occurred: ' + error);
+					}
+				});
+			});
+			$(document).ready(function () {
+				// Bắt sự kiện khi nhấn nút #btn-categoryandlocation
+				$('#btn-categoryandlocation').click(function (e) {
+					e.preventDefault(); // Ngăn trang reload
+
+					// Lấy giá trị từ dropdown #category và #location
+					var selectedCategory = $('#category').val();
+					var selectedLocation = $('#location').val();
+
+					// Kiểm tra nếu người dùng đã chọn category và location
+					if (selectedCategory && selectedLocation) {
+						// Gửi request Ajax tới server
+						$.ajax({
+							url: '@Url.Action("FindJobNotKey", "Job")', // Địa chỉ action FilterByCategoryAndLocation
+							type: 'POST', // Phương thức POST
+							data: { categoryId: selectedCategory, locationId: selectedLocation }, // Dữ liệu gửi lên server
+							success: function (result) {
+								// Đưa kết quả (danh sách công việc) vào div #myTabContent
+								$('div#myTabContent').html(result);
+							},
+							error: function (xhr, status, error) {
+								// Hiển thị thông báo lỗi nếu có
+								alert('An error occurred: ' + error);
+							}
+						});
+					} else {
+						alert("Please select both Category and Location.");
+					}
+				});
+			});
+		});
+	</script>
+}
